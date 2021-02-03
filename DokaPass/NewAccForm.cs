@@ -22,9 +22,6 @@ namespace DokaPass
         string key;
         generation gen;
 
-        #region forms
-        #endregion
-
         private void BtnCreate_Click(object sender, EventArgs e)
         {
             if(lblInfoMinimumChars.ForeColor == System.Drawing.Color.Green && lblnfoPIN.ForeColor == System.Drawing.Color.Green && lblInfoVerifyPIN.ForeColor == System.Drawing.Color.Green)
@@ -34,9 +31,6 @@ namespace DokaPass
                 NewAcc(txtUsername.Text,txtPIN.Text,key);
             }
         }
-
-
-
         private void NewAcc(string name, string pin, string key)//create new acc
         {
             DialogResult dialogResult = MessageBox.Show("Name: " + name + Environment.NewLine + "PIN: " + pin + Environment.NewLine + "RIGHT?", "Verify", MessageBoxButtons.YesNo);
@@ -113,8 +107,7 @@ namespace DokaPass
             }
         }
 
-
-
+        //txtbx verify
         #region textbox verify
         private void TxtUsername_TextChanged(object sender, EventArgs e)
         {
@@ -202,6 +195,63 @@ namespace DokaPass
         #endregion
 
         private void NewAccForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.OpenForms[0].Close();
+            Application.Exit();
+        }
+
+
+
+        //Design
+        #region PAGE_DESIGN
+        private void PageDesign()
+        {
+            this.MinimumSize = new System.Drawing.Size(760, 600);
+
+            //fonts
+            lblHeader.Font = new Font(lblHeader.Font.FontFamily, 20);
+            lblInfoMinimumChars.Font = new Font(lblInfoMinimumChars.Font.FontFamily, 10);
+            lblInfoVerifyPIN.Font = new Font(lblInfoVerifyPIN.Font.FontFamily, 10);
+            lblnfoPIN.Font = new Font(lblnfoPIN.Font.FontFamily, 10);
+            btnCreate.Font = new Font(btnCreate.Font.FontFamily,13);
+
+            //top
+            pnlTop.Height = (Screen.PrimaryScreen.Bounds.Height / 100) * 10;
+            lblHeader.Location = new Point(this.Width / 2 - 3 * 25, pnlTop.Height / 2 - 25 / 2);//   /2(center)   -4(words)    25(= 20pt to px)
+            btnZpet.Size = new Size(60, pnlTop.Height);
+
+            //body
+            btnCreate.Size = new Size(this.Width / 2, 50);
+            txtUsername.Size = new Size(250,25);
+            txtPIN.Size = new Size(250, 25);
+            txtVerifyPIN.Size = new Size(250, 25);
+            txtUsername.Location = new Point(1,grpUsername.Height/2 - 2);
+            lblInfoMinimumChars.Location = new Point(5+txtUsername.Width,txtUsername.Location.Y);
+            txtPIN.Location = new Point(txtUsername.Location.X, grpPIN.Height/4-3);
+            lblnfoPIN.Location = new Point(5+txtPIN.Width, txtPIN.Location.Y);
+            lblDec.Location = new Point(txtPIN.Location.X, 5+txtPIN.Location.Y+txtPIN.Height);
+            txtVerifyPIN.Location = new Point(txtPIN.Location.X, 5+lblDec.Location.Y+lblDec.Height);
+            lblInfoVerifyPIN.Location = new Point(txtVerifyPIN.Location.X + 5 + txtVerifyPIN.Width, txtVerifyPIN.Location.Y);
+            grpPIN.Size = new Size(this.Width/2, txtVerifyPIN.Location.Y+5+txtVerifyPIN.Height);
+            grpUsername.Size = new Size(this.Width / 2, txtUsername.Location.Y + 5+txtUsername.Height);
+
+            grpUsername.Location = new Point(this.Width / 4, this.Height / 100 * 15);
+            grpPIN.Location = new Point(grpUsername.Location.X, grpUsername.Location.Y + 15 + grpUsername.Height);
+            btnCreate.Location = new Point(grpPIN.Location.X, grpPIN.Location.Y + 15 + grpPIN.Height);
+
+        }
+        private void NewAccForm_Load(object sender, EventArgs e)
+        {
+            PageDesign();
+        }
+
+        private void NewAccForm_Resize(object sender, EventArgs e)
+        {
+            PageDesign();
+        }
+        #endregion
+
+        private void BtnZpet_Click(object sender, EventArgs e)
         {
             if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
             this.Hide();

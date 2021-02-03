@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlHead = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.pnlTop = new System.Windows.Forms.Panel();
+            this.lblHeader = new System.Windows.Forms.Label();
             this.pnlBody = new System.Windows.Forms.Panel();
             this.btnCreate = new System.Windows.Forms.Button();
             this.grpPIN = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblDec = new System.Windows.Forms.Label();
             this.txtVerifyPIN = new System.Windows.Forms.TextBox();
             this.lblInfoVerifyPIN = new System.Windows.Forms.Label();
             this.lblnfoPIN = new System.Windows.Forms.Label();
@@ -41,33 +41,35 @@
             this.grpUsername = new System.Windows.Forms.GroupBox();
             this.lblInfoMinimumChars = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
-            this.pnlHead.SuspendLayout();
+            this.btnZpet = new System.Windows.Forms.Button();
+            this.pnlTop.SuspendLayout();
             this.pnlBody.SuspendLayout();
             this.grpPIN.SuspendLayout();
             this.grpUsername.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pnlHead
+            // pnlTop
             // 
-            this.pnlHead.BackColor = System.Drawing.Color.SteelBlue;
-            this.pnlHead.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlHead.Controls.Add(this.label1);
-            this.pnlHead.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHead.Location = new System.Drawing.Point(0, 0);
-            this.pnlHead.Name = "pnlHead";
-            this.pnlHead.Size = new System.Drawing.Size(800, 85);
-            this.pnlHead.TabIndex = 0;
+            this.pnlTop.BackColor = System.Drawing.Color.SteelBlue;
+            this.pnlTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTop.Controls.Add(this.btnZpet);
+            this.pnlTop.Controls.Add(this.lblHeader);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.Name = "pnlTop";
+            this.pnlTop.Size = new System.Drawing.Size(800, 85);
+            this.pnlTop.TabIndex = 0;
             // 
-            // label1
+            // lblHeader
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Helvetica", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(318, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(144, 33);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Nový účet";
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Font = new System.Drawing.Font("Helvetica", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblHeader.ForeColor = System.Drawing.Color.White;
+            this.lblHeader.Location = new System.Drawing.Point(318, 25);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(144, 33);
+            this.lblHeader.TabIndex = 0;
+            this.lblHeader.Text = "Nový účet";
             // 
             // pnlBody
             // 
@@ -84,7 +86,7 @@
             // btnCreate
             // 
             this.btnCreate.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.btnCreate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCreate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCreate.Font = new System.Drawing.Font("Helvetica", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnCreate.Location = new System.Drawing.Point(168, 251);
             this.btnCreate.Name = "btnCreate";
@@ -96,7 +98,7 @@
             // 
             // grpPIN
             // 
-            this.grpPIN.Controls.Add(this.label6);
+            this.grpPIN.Controls.Add(this.lblDec);
             this.grpPIN.Controls.Add(this.txtVerifyPIN);
             this.grpPIN.Controls.Add(this.lblInfoVerifyPIN);
             this.grpPIN.Controls.Add(this.lblnfoPIN);
@@ -109,15 +111,15 @@
             this.grpPIN.TabStop = false;
             this.grpPIN.Text = "PIN";
             // 
-            // label6
+            // lblDec
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Helvetica", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(10, 48);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(116, 17);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "a ještě jednou...";
+            this.lblDec.AutoSize = true;
+            this.lblDec.Font = new System.Drawing.Font("Helvetica", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblDec.Location = new System.Drawing.Point(10, 48);
+            this.lblDec.Name = "lblDec";
+            this.lblDec.Size = new System.Drawing.Size(116, 17);
+            this.lblDec.TabIndex = 7;
+            this.lblDec.Text = "a ještě jednou...";
             // 
             // txtVerifyPIN
             // 
@@ -194,19 +196,36 @@
             this.txtUsername.TabIndex = 1;
             this.txtUsername.TextChanged += new System.EventHandler(this.TxtUsername_TextChanged);
             // 
+            // btnZpet
+            // 
+            this.btnZpet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(109)))), ((int)(((byte)(159)))));
+            this.btnZpet.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnZpet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnZpet.Font = new System.Drawing.Font("Helvetica", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnZpet.ForeColor = System.Drawing.Color.White;
+            this.btnZpet.Location = new System.Drawing.Point(738, 0);
+            this.btnZpet.Name = "btnZpet";
+            this.btnZpet.Size = new System.Drawing.Size(60, 83);
+            this.btnZpet.TabIndex = 1;
+            this.btnZpet.Text = "Zpět";
+            this.btnZpet.UseVisualStyleBackColor = false;
+            this.btnZpet.Click += new System.EventHandler(this.BtnZpet_Click);
+            // 
             // NewAccForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 461);
             this.Controls.Add(this.pnlBody);
-            this.Controls.Add(this.pnlHead);
+            this.Controls.Add(this.pnlTop);
             this.Name = "NewAccForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NewAccForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewAccForm_FormClosing);
-            this.pnlHead.ResumeLayout(false);
-            this.pnlHead.PerformLayout();
+            this.Load += new System.EventHandler(this.NewAccForm_Load);
+            this.Resize += new System.EventHandler(this.NewAccForm_Resize);
+            this.pnlTop.ResumeLayout(false);
+            this.pnlTop.PerformLayout();
             this.pnlBody.ResumeLayout(false);
             this.grpPIN.ResumeLayout(false);
             this.grpPIN.PerformLayout();
@@ -218,8 +237,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel pnlHead;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel pnlTop;
+        private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Panel pnlBody;
         private System.Windows.Forms.GroupBox grpUsername;
         private System.Windows.Forms.Label lblInfoMinimumChars;
@@ -228,8 +247,9 @@
         private System.Windows.Forms.Label lblInfoVerifyPIN;
         private System.Windows.Forms.Label lblnfoPIN;
         private System.Windows.Forms.TextBox txtPIN;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblDec;
         private System.Windows.Forms.TextBox txtVerifyPIN;
         private System.Windows.Forms.Button btnCreate;
+        private System.Windows.Forms.Button btnZpet;
     }
 }

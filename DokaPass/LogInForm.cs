@@ -41,7 +41,7 @@ namespace DokaPass
                 {
                     if(File.Exists(binPath + "\\" + key + ".csv"))
                     {
-                        PullForm pullForm = new DokaPass.PullForm(key);
+                        PullForm pullForm = new DokaPass.PullForm(key, txtUsername.Text);
                         pullForm.Show();
                         txtPIN.Text = "";
                         txtUsername.Text = "";
@@ -69,8 +69,56 @@ namespace DokaPass
 
         private void LogInForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Application.OpenForms[0].Close();
+            Application.Exit();
+        }
+
+        private void BtnZpet_Click(object sender, EventArgs e)
+        {
             if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
             this.Hide();
         }
+
+
+
+        #region DESIGN_PAGE
+        private void PageDesign()
+        {
+            this.MinimumSize = new System.Drawing.Size(760, 600);
+
+            //fonts
+            lblHeader.Font = new Font(lblHeader.Font.FontFamily, 20);
+            btnLogIn.Font = new Font(btnLogIn.Font.FontFamily, 13);
+
+            //top
+            pnlTop.Height = (Screen.PrimaryScreen.Bounds.Height / 100) * 10;
+            lblHeader.Location = new Point(this.Width / 2 - 3 * 25, pnlTop.Height / 2 - 25 / 2);//   /2(center)   -4(words)    25(= 20pt to px)
+
+            //body
+            btnLogIn.Size = new Size(this.Width / 2, 50);
+            txtUsername.Size = new Size(this.Width/2-2, 25);
+            txtPIN.Size = new Size(this.Width/2 - 2, 25);
+            txtUsername.Location = new Point(1, grpUsername.Height / 2 - 2);
+            txtPIN.Location = new Point(1, grpPIN.Height / 2 - 2);
+            grpPIN.Size = new Size(this.Width / 2, txtPIN.Location.Y + 5 + txtPIN.Height);
+            grpUsername.Size = new Size(this.Width / 2, txtUsername.Location.Y + 5 + txtUsername.Height);
+
+            grpUsername.Location = new Point(this.Width / 4, this.Height / 100 * 30);
+            grpPIN.Location = new Point(grpUsername.Location.X, grpUsername.Location.Y + 15 + grpUsername.Height);
+            btnLogIn.Location = new Point(grpPIN.Location.X, grpPIN.Location.Y + 15 + grpPIN.Height);
+
+        }
+
+
+        private void LogInForm_Load(object sender, EventArgs e)
+        {
+            PageDesign();
+        }
+
+        private void LogInForm_Resize(object sender, EventArgs e)
+        {
+            PageDesign();
+        }
+        #endregion
     }
 }

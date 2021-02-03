@@ -30,73 +30,79 @@
         {
             this.btnLogIn = new System.Windows.Forms.Button();
             this.btnNewAcc = new System.Windows.Forms.Button();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.test = new System.Windows.Forms.Button();
-            this.txttest = new System.Windows.Forms.TextBox();
+            this.pnlTop = new System.Windows.Forms.Panel();
+            this.lblHeader = new System.Windows.Forms.Label();
+            this.pnlTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnLogIn
             // 
-            this.btnLogIn.Location = new System.Drawing.Point(376, 262);
+            this.btnLogIn.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnLogIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnLogIn.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnLogIn.Location = new System.Drawing.Point(354, 212);
             this.btnLogIn.Name = "btnLogIn";
-            this.btnLogIn.Size = new System.Drawing.Size(176, 40);
+            this.btnLogIn.Size = new System.Drawing.Size(249, 40);
             this.btnLogIn.TabIndex = 0;
             this.btnLogIn.Text = "Log In";
-            this.btnLogIn.UseVisualStyleBackColor = true;
+            this.btnLogIn.UseVisualStyleBackColor = false;
             this.btnLogIn.Click += new System.EventHandler(this.BtnLogIn_Click);
+            this.btnLogIn.MouseLeave += new System.EventHandler(this.BtnLogIn_MouseLeave);
+            this.btnLogIn.MouseHover += new System.EventHandler(this.BtnLogIn_MouseHover);
             // 
             // btnNewAcc
             // 
-            this.btnNewAcc.Location = new System.Drawing.Point(340, 308);
+            this.btnNewAcc.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnNewAcc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnNewAcc.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnNewAcc.Location = new System.Drawing.Point(354, 258);
             this.btnNewAcc.Name = "btnNewAcc";
             this.btnNewAcc.Size = new System.Drawing.Size(249, 40);
             this.btnNewAcc.TabIndex = 1;
             this.btnNewAcc.Text = "New Account";
-            this.btnNewAcc.UseVisualStyleBackColor = true;
+            this.btnNewAcc.UseVisualStyleBackColor = false;
             this.btnNewAcc.Click += new System.EventHandler(this.BtnNewAcc_Click);
+            this.btnNewAcc.MouseLeave += new System.EventHandler(this.BtnNewAcc_MouseLeave);
+            this.btnNewAcc.MouseHover += new System.EventHandler(this.BtnNewAcc_MouseHover);
             // 
-            // btnSettings
+            // pnlTop
             // 
-            this.btnSettings.Location = new System.Drawing.Point(894, 12);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(75, 42);
-            this.btnSettings.TabIndex = 2;
-            this.btnSettings.Text = "*";
-            this.btnSettings.UseVisualStyleBackColor = true;
+            this.pnlTop.BackColor = System.Drawing.Color.SteelBlue;
+            this.pnlTop.Controls.Add(this.lblHeader);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.Name = "pnlTop";
+            this.pnlTop.Size = new System.Drawing.Size(981, 100);
+            this.pnlTop.TabIndex = 2;
             // 
-            // test
+            // lblHeader
             // 
-            this.test.Location = new System.Drawing.Point(164, 48);
-            this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(75, 23);
-            this.test.TabIndex = 3;
-            this.test.Text = "button1";
-            this.test.UseVisualStyleBackColor = true;
-            this.test.Click += new System.EventHandler(this.Test_Click);
-            // 
-            // txttest
-            // 
-            this.txttest.Location = new System.Drawing.Point(245, 49);
-            this.txttest.Name = "txttest";
-            this.txttest.Size = new System.Drawing.Size(376, 22);
-            this.txttest.TabIndex = 4;
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Font = new System.Drawing.Font("Helvetica", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblHeader.ForeColor = System.Drawing.Color.White;
+            this.lblHeader.Location = new System.Drawing.Point(397, 32);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(164, 38);
+            this.lblHeader.TabIndex = 0;
+            this.lblHeader.Text = "DokaPass";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 570);
-            this.Controls.Add(this.txttest);
-            this.Controls.Add(this.test);
-            this.Controls.Add(this.btnSettings);
+            this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.btnNewAcc);
             this.Controls.Add(this.btnLogIn);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DokaPass - Menu";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
+            this.pnlTop.ResumeLayout(false);
+            this.pnlTop.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -104,9 +110,8 @@
 
         private System.Windows.Forms.Button btnLogIn;
         private System.Windows.Forms.Button btnNewAcc;
-        private System.Windows.Forms.Button btnSettings;
-        private System.Windows.Forms.Button test;
-        private System.Windows.Forms.TextBox txttest;
+        private System.Windows.Forms.Panel pnlTop;
+        private System.Windows.Forms.Label lblHeader;
     }
 }
 
