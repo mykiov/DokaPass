@@ -14,9 +14,12 @@ namespace DokaPass
 {
     public partial class LogInForm : Form
     {
-        public LogInForm()
+        public LogInForm(int width, int height, int x, int y)
         {
             InitializeComponent();
+            this.Width = width;
+            this.Height = height;
+            this.Location = new Point(x,y);
         }
 
         private void BtnLogIn_Click(object sender, EventArgs e)
@@ -41,7 +44,7 @@ namespace DokaPass
                 {
                     if(File.Exists(binPath + "\\" + key + ".csv"))
                     {
-                        PullForm pullForm = new DokaPass.PullForm(key, txtUsername.Text);
+                        PullForm pullForm = new DokaPass.PullForm(key, txtUsername.Text, this.Width, this.Height, this.Location.X, this.Location.Y);
                         pullForm.Show();
                         txtPIN.Text = "";
                         txtUsername.Text = "";
@@ -93,6 +96,7 @@ namespace DokaPass
             //top
             pnlTop.Height = (Screen.PrimaryScreen.Bounds.Height / 100) * 10;
             lblHeader.Location = new Point(this.Width / 2 - 3 * 25, pnlTop.Height / 2 - 25 / 2);//   /2(center)   -4(words)    25(= 20pt to px)
+            btnZpet.Width = 60;
 
             //body
             btnLogIn.Size = new Size(this.Width / 2, 50);

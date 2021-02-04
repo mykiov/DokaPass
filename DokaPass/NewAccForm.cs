@@ -14,9 +14,12 @@ namespace DokaPass
 {
     public partial class NewAccForm : Form
     {
-        public NewAccForm()
+        public NewAccForm(int width, int height, int x, int y)
         {
             InitializeComponent();
+            this.Width = width;
+            this.Height = height;
+            this.Location = new Point(x,y);
         }
 
         string key;
@@ -218,7 +221,7 @@ namespace DokaPass
             //top
             pnlTop.Height = (Screen.PrimaryScreen.Bounds.Height / 100) * 10;
             lblHeader.Location = new Point(this.Width / 2 - 3 * 25, pnlTop.Height / 2 - 25 / 2);//   /2(center)   -4(words)    25(= 20pt to px)
-            btnZpet.Size = new Size(60, pnlTop.Height);
+            btnZpet.Width = 60;
 
             //body
             btnCreate.Size = new Size(this.Width / 2, 50);

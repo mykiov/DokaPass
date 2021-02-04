@@ -20,14 +20,14 @@ namespace DokaPass
 
         private void BtnLogIn_Click(object sender, EventArgs e)
         {
-            LogInForm loginForm = new DokaPass.LogInForm();
+            LogInForm loginForm = new DokaPass.LogInForm(this.Width,this.Height, this.Location.X, this.Location.Y);
             loginForm.Show();
             this.Hide();
         }
 
         private void BtnNewAcc_Click(object sender, EventArgs e)
         {
-            NewAccForm newAccForm = new DokaPass.NewAccForm();
+            NewAccForm newAccForm = new DokaPass.NewAccForm(this.Width, this.Height, this.Location.X, this.Location.Y);
             newAccForm.Show();
             this.Hide();
         }
