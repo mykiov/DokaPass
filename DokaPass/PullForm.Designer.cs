@@ -42,6 +42,8 @@
             this.lblHelloMoment = new System.Windows.Forms.Label();
             this.pnlBody = new System.Windows.Forms.Panel();
             this.pnlUserPassComment = new System.Windows.Forms.Panel();
+            this.btnEvent = new System.Windows.Forms.Button();
+            this.btnGen = new System.Windows.Forms.Button();
             this.lblActualMode = new System.Windows.Forms.Label();
             this.btnCopyPass = new System.Windows.Forms.Button();
             this.btnCopyUsername = new System.Windows.Forms.Button();
@@ -53,8 +55,7 @@
             this.clmnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmnUsername = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmnPass = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnPridat = new System.Windows.Forms.Button();
+            this.lblCharCounterForTxtComment = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlTopWithButtons.SuspendLayout();
             this.pnlTopButtonsAddEdit.SuspendLayout();
@@ -67,6 +68,7 @@
             // 
             // pnlTop
             // 
+            this.pnlTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlTop.Controls.Add(this.pnlTopWithButtons);
             this.pnlTop.Controls.Add(this.pnlAcc);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -84,7 +86,7 @@
             this.pnlTopWithButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTopWithButtons.Location = new System.Drawing.Point(312, 0);
             this.pnlTopWithButtons.Name = "pnlTopWithButtons";
-            this.pnlTopWithButtons.Size = new System.Drawing.Size(607, 72);
+            this.pnlTopWithButtons.Size = new System.Drawing.Size(605, 70);
             this.pnlTopWithButtons.TabIndex = 1;
             // 
             // pnlTopButtonsAddEdit
@@ -93,9 +95,9 @@
             this.pnlTopButtonsAddEdit.Controls.Add(this.btnADD);
             this.pnlTopButtonsAddEdit.Controls.Add(this.btnEdit);
             this.pnlTopButtonsAddEdit.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlTopButtonsAddEdit.Location = new System.Drawing.Point(231, 0);
+            this.pnlTopButtonsAddEdit.Location = new System.Drawing.Point(229, 0);
             this.pnlTopButtonsAddEdit.Name = "pnlTopButtonsAddEdit";
-            this.pnlTopButtonsAddEdit.Size = new System.Drawing.Size(376, 72);
+            this.pnlTopButtonsAddEdit.Size = new System.Drawing.Size(376, 70);
             this.pnlTopButtonsAddEdit.TabIndex = 5;
             // 
             // btnSpectate
@@ -106,7 +108,7 @@
             this.btnSpectate.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnSpectate.Location = new System.Drawing.Point(0, 0);
             this.btnSpectate.Name = "btnSpectate";
-            this.btnSpectate.Size = new System.Drawing.Size(116, 72);
+            this.btnSpectate.Size = new System.Drawing.Size(116, 70);
             this.btnSpectate.TabIndex = 3;
             this.btnSpectate.Text = "PROHLÍŽET";
             this.btnSpectate.UseVisualStyleBackColor = false;
@@ -120,7 +122,7 @@
             this.btnADD.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnADD.Location = new System.Drawing.Point(260, 0);
             this.btnADD.Name = "btnADD";
-            this.btnADD.Size = new System.Drawing.Size(116, 72);
+            this.btnADD.Size = new System.Drawing.Size(116, 70);
             this.btnADD.TabIndex = 0;
             this.btnADD.Text = "NOVÝ";
             this.btnADD.UseVisualStyleBackColor = false;
@@ -134,7 +136,7 @@
             this.btnEdit.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnEdit.Location = new System.Drawing.Point(0, 0);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(376, 72);
+            this.btnEdit.Size = new System.Drawing.Size(376, 70);
             this.btnEdit.TabIndex = 1;
             this.btnEdit.Text = "UPRAVIT";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -145,7 +147,7 @@
             this.pnlSpace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlSpace.Location = new System.Drawing.Point(141, 0);
             this.pnlSpace.Name = "pnlSpace";
-            this.pnlSpace.Size = new System.Drawing.Size(466, 72);
+            this.pnlSpace.Size = new System.Drawing.Size(464, 70);
             this.pnlSpace.TabIndex = 4;
             // 
             // pnlWithDeleteButton
@@ -154,7 +156,7 @@
             this.pnlWithDeleteButton.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlWithDeleteButton.Location = new System.Drawing.Point(0, 0);
             this.pnlWithDeleteButton.Name = "pnlWithDeleteButton";
-            this.pnlWithDeleteButton.Size = new System.Drawing.Size(141, 72);
+            this.pnlWithDeleteButton.Size = new System.Drawing.Size(141, 70);
             this.pnlWithDeleteButton.TabIndex = 2;
             // 
             // btnDelete
@@ -166,7 +168,7 @@
             this.btnDelete.ForeColor = System.Drawing.Color.Black;
             this.btnDelete.Location = new System.Drawing.Point(0, 0);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(141, 72);
+            this.btnDelete.Size = new System.Drawing.Size(141, 70);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "SMAZAT";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -180,7 +182,7 @@
             this.pnlAcc.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlAcc.Location = new System.Drawing.Point(0, 0);
             this.pnlAcc.Name = "pnlAcc";
-            this.pnlAcc.Size = new System.Drawing.Size(312, 72);
+            this.pnlAcc.Size = new System.Drawing.Size(312, 70);
             this.pnlAcc.TabIndex = 0;
             // 
             // btnLogOut
@@ -190,7 +192,7 @@
             this.btnLogOut.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnLogOut.Font = new System.Drawing.Font("Helvetica", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnLogOut.ForeColor = System.Drawing.Color.PaleTurquoise;
-            this.btnLogOut.Location = new System.Drawing.Point(0, 31);
+            this.btnLogOut.Location = new System.Drawing.Point(0, 29);
             this.btnLogOut.Name = "btnLogOut";
             this.btnLogOut.Size = new System.Drawing.Size(312, 41);
             this.btnLogOut.TabIndex = 1;
@@ -222,8 +224,10 @@
             // pnlUserPassComment
             // 
             this.pnlUserPassComment.BackColor = System.Drawing.Color.PowderBlue;
-            this.pnlUserPassComment.Controls.Add(this.btnPridat);
-            this.pnlUserPassComment.Controls.Add(this.button1);
+            this.pnlUserPassComment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlUserPassComment.Controls.Add(this.lblCharCounterForTxtComment);
+            this.pnlUserPassComment.Controls.Add(this.btnEvent);
+            this.pnlUserPassComment.Controls.Add(this.btnGen);
             this.pnlUserPassComment.Controls.Add(this.lblActualMode);
             this.pnlUserPassComment.Controls.Add(this.btnCopyPass);
             this.pnlUserPassComment.Controls.Add(this.btnCopyUsername);
@@ -235,6 +239,29 @@
             this.pnlUserPassComment.Name = "pnlUserPassComment";
             this.pnlUserPassComment.Size = new System.Drawing.Size(351, 447);
             this.pnlUserPassComment.TabIndex = 1;
+            // 
+            // btnEvent
+            // 
+            this.btnEvent.BackColor = System.Drawing.Color.MintCream;
+            this.btnEvent.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEvent.Font = new System.Drawing.Font("Helvetica", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnEvent.Location = new System.Drawing.Point(14, 326);
+            this.btnEvent.Name = "btnEvent";
+            this.btnEvent.Size = new System.Drawing.Size(221, 30);
+            this.btnEvent.TabIndex = 7;
+            this.btnEvent.Text = "Přidat";
+            this.btnEvent.UseVisualStyleBackColor = false;
+            // 
+            // btnGen
+            // 
+            this.btnGen.BackColor = System.Drawing.Color.LightBlue;
+            this.btnGen.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnGen.Location = new System.Drawing.Point(270, 99);
+            this.btnGen.Name = "btnGen";
+            this.btnGen.Size = new System.Drawing.Size(46, 23);
+            this.btnGen.TabIndex = 6;
+            this.btnGen.Text = "GEN";
+            this.btnGen.UseVisualStyleBackColor = false;
             // 
             // lblActualMode
             // 
@@ -249,32 +276,38 @@
             // 
             // btnCopyPass
             // 
+            this.btnCopyPass.BackColor = System.Drawing.Color.LightBlue;
             this.btnCopyPass.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCopyPass.Location = new System.Drawing.Point(241, 99);
             this.btnCopyPass.Name = "btnCopyPass";
             this.btnCopyPass.Size = new System.Drawing.Size(23, 23);
             this.btnCopyPass.TabIndex = 4;
             this.btnCopyPass.Text = "C";
-            this.btnCopyPass.UseVisualStyleBackColor = true;
+            this.btnCopyPass.UseVisualStyleBackColor = false;
             // 
             // btnCopyUsername
             // 
+            this.btnCopyUsername.BackColor = System.Drawing.Color.LightBlue;
             this.btnCopyUsername.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCopyUsername.Location = new System.Drawing.Point(241, 36);
             this.btnCopyUsername.Name = "btnCopyUsername";
             this.btnCopyUsername.Size = new System.Drawing.Size(23, 23);
             this.btnCopyUsername.TabIndex = 3;
             this.btnCopyUsername.Text = "C";
-            this.btnCopyUsername.UseVisualStyleBackColor = true;
+            this.btnCopyUsername.UseVisualStyleBackColor = false;
             // 
             // txtComments
             // 
             this.txtComments.Location = new System.Drawing.Point(14, 147);
+            this.txtComments.MaxLength = 250;
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
             this.txtComments.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtComments.Size = new System.Drawing.Size(221, 157);
             this.txtComments.TabIndex = 2;
+            this.txtComments.TextChanged += new System.EventHandler(this.TxtComments_TextChanged);
+            this.txtComments.Enter += new System.EventHandler(this.TxtComments_Enter);
+            this.txtComments.Leave += new System.EventHandler(this.TxtComments_Leave);
             // 
             // txtPass
             // 
@@ -282,6 +315,8 @@
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(221, 22);
             this.txtPass.TabIndex = 1;
+            this.txtPass.Enter += new System.EventHandler(this.TxtPass_Enter);
+            this.txtPass.Leave += new System.EventHandler(this.TxtPass_Leave);
             // 
             // txtUsername
             // 
@@ -289,6 +324,8 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(221, 22);
             this.txtUsername.TabIndex = 0;
+            this.txtUsername.Enter += new System.EventHandler(this.TxtUsername_Enter);
+            this.txtUsername.Leave += new System.EventHandler(this.TxtUsername_Leave);
             // 
             // pnlListView
             // 
@@ -325,27 +362,14 @@
             // 
             this.clmnPass.Text = "Heslo";
             // 
-            // button1
+            // lblCharCounterForTxtComment
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Location = new System.Drawing.Point(270, 99);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(46, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "GEN";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // btnPridat
-            // 
-            this.btnPridat.BackColor = System.Drawing.Color.MintCream;
-            this.btnPridat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnPridat.Font = new System.Drawing.Font("Helvetica", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnPridat.Location = new System.Drawing.Point(14, 321);
-            this.btnPridat.Name = "btnPridat";
-            this.btnPridat.Size = new System.Drawing.Size(221, 30);
-            this.btnPridat.TabIndex = 7;
-            this.btnPridat.Text = "Přidat";
-            this.btnPridat.UseVisualStyleBackColor = false;
+            this.lblCharCounterForTxtComment.AutoSize = true;
+            this.lblCharCounterForTxtComment.Location = new System.Drawing.Point(241, 287);
+            this.lblCharCounterForTxtComment.Name = "lblCharCounterForTxtComment";
+            this.lblCharCounterForTxtComment.Size = new System.Drawing.Size(44, 17);
+            this.lblCharCounterForTxtComment.TabIndex = 8;
+            this.lblCharCounterForTxtComment.Text = "0/250";
             // 
             // PullForm
             // 
@@ -401,7 +425,8 @@
         private System.Windows.Forms.ColumnHeader clmnUsername;
         private System.Windows.Forms.ColumnHeader clmnPass;
         private System.Windows.Forms.Label lblActualMode;
-        private System.Windows.Forms.Button btnPridat;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEvent;
+        private System.Windows.Forms.Button btnGen;
+        private System.Windows.Forms.Label lblCharCounterForTxtComment;
     }
 }

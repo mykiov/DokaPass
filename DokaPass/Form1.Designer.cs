@@ -44,7 +44,7 @@
             this.btnLogIn.Name = "btnLogIn";
             this.btnLogIn.Size = new System.Drawing.Size(249, 40);
             this.btnLogIn.TabIndex = 0;
-            this.btnLogIn.Text = "Log In";
+            this.btnLogIn.Text = "Příhlásit se";
             this.btnLogIn.UseVisualStyleBackColor = false;
             this.btnLogIn.Click += new System.EventHandler(this.BtnLogIn_Click);
             this.btnLogIn.MouseLeave += new System.EventHandler(this.BtnLogIn_MouseLeave);
@@ -59,7 +59,7 @@
             this.btnNewAcc.Name = "btnNewAcc";
             this.btnNewAcc.Size = new System.Drawing.Size(249, 40);
             this.btnNewAcc.TabIndex = 1;
-            this.btnNewAcc.Text = "New Account";
+            this.btnNewAcc.Text = "Nový účet";
             this.btnNewAcc.UseVisualStyleBackColor = false;
             this.btnNewAcc.Click += new System.EventHandler(this.BtnNewAcc_Click);
             this.btnNewAcc.MouseLeave += new System.EventHandler(this.BtnNewAcc_MouseLeave);

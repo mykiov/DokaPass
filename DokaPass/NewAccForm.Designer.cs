@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.btnZpet = new System.Windows.Forms.Button();
             this.lblHeader = new System.Windows.Forms.Label();
             this.pnlBody = new System.Windows.Forms.Panel();
             this.btnCreate = new System.Windows.Forms.Button();
@@ -41,7 +42,6 @@
             this.grpUsername = new System.Windows.Forms.GroupBox();
             this.lblInfoMinimumChars = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
-            this.btnZpet = new System.Windows.Forms.Button();
             this.pnlTop.SuspendLayout();
             this.pnlBody.SuspendLayout();
             this.grpPIN.SuspendLayout();
@@ -59,6 +59,21 @@
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(800, 85);
             this.pnlTop.TabIndex = 0;
+            // 
+            // btnZpet
+            // 
+            this.btnZpet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(109)))), ((int)(((byte)(159)))));
+            this.btnZpet.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnZpet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnZpet.Font = new System.Drawing.Font("Helvetica", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnZpet.ForeColor = System.Drawing.Color.White;
+            this.btnZpet.Location = new System.Drawing.Point(738, 0);
+            this.btnZpet.Name = "btnZpet";
+            this.btnZpet.Size = new System.Drawing.Size(60, 83);
+            this.btnZpet.TabIndex = 1;
+            this.btnZpet.Text = "Zpět";
+            this.btnZpet.UseVisualStyleBackColor = false;
+            this.btnZpet.Click += new System.EventHandler(this.BtnZpet_Click);
             // 
             // lblHeader
             // 
@@ -196,21 +211,6 @@
             this.txtUsername.TabIndex = 1;
             this.txtUsername.TextChanged += new System.EventHandler(this.TxtUsername_TextChanged);
             // 
-            // btnZpet
-            // 
-            this.btnZpet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(109)))), ((int)(((byte)(159)))));
-            this.btnZpet.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnZpet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnZpet.Font = new System.Drawing.Font("Helvetica", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnZpet.ForeColor = System.Drawing.Color.White;
-            this.btnZpet.Location = new System.Drawing.Point(738, 0);
-            this.btnZpet.Name = "btnZpet";
-            this.btnZpet.Size = new System.Drawing.Size(60, 83);
-            this.btnZpet.TabIndex = 1;
-            this.btnZpet.Text = "Zpět";
-            this.btnZpet.UseVisualStyleBackColor = false;
-            this.btnZpet.Click += new System.EventHandler(this.BtnZpet_Click);
-            // 
             // NewAccForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -220,7 +220,7 @@
             this.Controls.Add(this.pnlTop);
             this.Name = "NewAccForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NewAccForm";
+            this.Text = "DokaPass - Nový účet";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewAccForm_FormClosing);
             this.Load += new System.EventHandler(this.NewAccForm_Load);
             this.Resize += new System.EventHandler(this.NewAccForm_Resize);
