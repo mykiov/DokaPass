@@ -31,55 +31,68 @@ namespace DokaPass
         string DisplayMode;// is for change mode between view, create, edit  delete
         #endregion
 
-        private void FuncDisplayMode()
+        #region ListView view refresh
+        private void DataGridView_Update()///////////////////////////////////////////////////////////////////////////////////////08.02.2021
         {
-            AfterButtonClick();
-            if (DisplayMode == "view")
+            string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+            StreamReader strmR = new StreamReader(binPath + "\\" + key + ".csv");
+            string dataVsouboru;
+            while((dataVsouboru = (strmR.ReadLine())) != null)
             {
-
-
+                
             }
-            else if (DisplayMode == "create")
+        }
+        #endregion
+
+
+        private void BtnEvent_Click(object sender, EventArgs e)
+        {
+            BtnEventImplementation();
+        }
+        private void BtnEventImplementation()
+        {
+            if (DisplayMode == "create")
             {
-
-
+                string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+                StreamWriter strmW = new StreamWriter(binPath+"\\"+key+".csv");
+                strmW.WriteLine(txtWebPageName.Text + ";" + txtUsername.Text+";"+ txtPass.Text+";"+ txtComments.Text);
+                strmW.Close();
+                MessageBox.Show("Název: "+ txtWebPageName.Text + Environment.NewLine + "Username: "+txtUsername.Text+Environment.NewLine+"Heslo: " + txtPass.Text);
+                TxtName_SetText();
+                TxtUsername_SetText();
+                TxtPass_SetText();
+                TxtComments_SetText();
             }
             else if (DisplayMode == "edit")
             {
 
-
             }
-            else if (DisplayMode == "delete")
-            {
-
-
-            }
-
+            DataGridView_Update();
         }
 
         #region Buttons
         private void BtnADD_Click(object sender, EventArgs e)
         {
             DisplayMode = "create";
-            FuncDisplayMode();
+            AfterButtonClick();
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
             DisplayMode = "edit";
-            FuncDisplayMode();
+            AfterButtonClick();
         }
 
         private void BtnSpectate_Click(object sender, EventArgs e)
         {
             DisplayMode = "view";
-            FuncDisplayMode();
+            AfterButtonClick();
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
             DisplayMode = "delete";
-            FuncDisplayMode();
+            AfterButtonClick();
         }
         #endregion
 
@@ -106,6 +119,9 @@ namespace DokaPass
             txtUsername.Location = new Point(pnlUserPassComment.Width / 2 - pnlUserPassComment.Width / 4, pnlUserPassComment.Height / 2 - pnlUserPassComment.Height / 4);
             btnCopyUsername.Size = new Size(txtUsername.Height, txtUsername.Height);
             btnCopyUsername.Location = new Point(txtUsername.Location.X + 5 + txtUsername.Width, txtUsername.Location.Y);
+            //Data Name
+            txtWebPageName.Size = new Size(txtUsername.Width, txtUsername.Height);
+            txtWebPageName.Location = new Point(txtUsername.Location.X, txtUsername.Location.Y-txtWebPageName.Height-5);
             //pass
             txtPass.Size = txtUsername.Size;
             txtPass.Location = new Point(txtUsername.Location.X, txtUsername.Location.Y + 5 + txtUsername.Height);
@@ -126,6 +142,10 @@ namespace DokaPass
         #region textbox gray note
         private void Textboxes_Load()
         {
+            //load txtName
+            this.txtWebPageName.Enter += new EventHandler(TxtName_Enter);
+            this.txtWebPageName.Leave += new EventHandler(TxtName_Leave);
+            TxtName_SetText();
             //load txtUsername
             this.txtUsername.Enter += new EventHandler(TxtUsername_Enter);
             this.txtUsername.Leave += new EventHandler(TxtUsername_Leave);
@@ -139,6 +159,23 @@ namespace DokaPass
             this.txtComments.Leave += new EventHandler(TxtComments_Leave);
             TxtComments_SetText();
         }
+
+        protected void TxtName_SetText()
+        {
+            this.txtWebPageName.Text = "Název web stránky";
+            txtWebPageName.ForeColor = Color.Gray;
+        }
+        private void TxtName_Leave(object sender, EventArgs e)
+        {
+            if (txtWebPageName.Text.Trim() == "") TxtName_SetText();
+        }
+        private void TxtName_Enter(object sender, EventArgs e)
+        {
+            if (txtWebPageName.ForeColor == Color.Black) return;
+            txtWebPageName.Text = "";
+            txtWebPageName.ForeColor = Color.Black;
+        }
+
 
         //txtUsername - gray note
         private void TxtUsername_Leave(object sender, EventArgs e)
@@ -216,7 +253,10 @@ namespace DokaPass
                 btnCopyPass.Show();
                 btnGen.Hide();
                 btnEvent.Hide();
-
+                txtWebPageName.ReadOnly = true;
+                txtUsername.ReadOnly = true;
+                txtPass.ReadOnly = true;
+                txtComments.ReadOnly = true;
 
             }
             else if (DisplayMode == "create")
@@ -231,6 +271,10 @@ namespace DokaPass
                 btnGen.Show();
                 btnEvent.Text = "Přidat";
                 btnEvent.Show();
+                txtWebPageName.ReadOnly = false;
+                txtUsername.ReadOnly = false;
+                txtPass.ReadOnly = false;
+                txtComments.ReadOnly = false;
             }
             else if (DisplayMode == "edit")
             {
@@ -244,6 +288,10 @@ namespace DokaPass
                 btnGen.Show();
                 btnEvent.Text = "Upravit";
                 btnEvent.Show();
+                txtWebPageName.ReadOnly = false;
+                txtUsername.ReadOnly = false;
+                txtPass.ReadOnly = false;
+                txtComments.ReadOnly = false;
 
             }
             else if (DisplayMode == "delete")
@@ -259,13 +307,14 @@ namespace DokaPass
             TxtUsername_SetText();
             TxtPass_SetText();
             TxtComments_SetText();
+            DataGridView_Update();
         }
         private void PullForm_Load(object sender, EventArgs e)
         {
             lblHelloMoment.Text = "Hi, " + username + "!";
             DisplayMode = "view";
             Textboxes_Load();
-            FuncDisplayMode();
+            AfterButtonClick();
             PageDesign();
         }
         private void PullForm_Resize(object sender, EventArgs e)

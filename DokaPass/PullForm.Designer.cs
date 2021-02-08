@@ -42,6 +42,7 @@
             this.lblHelloMoment = new System.Windows.Forms.Label();
             this.pnlBody = new System.Windows.Forms.Panel();
             this.pnlUserPassComment = new System.Windows.Forms.Panel();
+            this.lblCharCounterForTxtComment = new System.Windows.Forms.Label();
             this.btnEvent = new System.Windows.Forms.Button();
             this.btnGen = new System.Windows.Forms.Button();
             this.lblActualMode = new System.Windows.Forms.Label();
@@ -51,11 +52,8 @@
             this.txtPass = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.pnlListView = new System.Windows.Forms.Panel();
-            this.lstView = new System.Windows.Forms.ListView();
-            this.clmnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmnUsername = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmnPass = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblCharCounterForTxtComment = new System.Windows.Forms.Label();
+            this.txtWebPageName = new System.Windows.Forms.TextBox();
+            this.dtGridView = new System.Windows.Forms.DataGridView();
             this.pnlTop.SuspendLayout();
             this.pnlTopWithButtons.SuspendLayout();
             this.pnlTopButtonsAddEdit.SuspendLayout();
@@ -64,6 +62,7 @@
             this.pnlBody.SuspendLayout();
             this.pnlUserPassComment.SuspendLayout();
             this.pnlListView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -225,6 +224,7 @@
             // 
             this.pnlUserPassComment.BackColor = System.Drawing.Color.PowderBlue;
             this.pnlUserPassComment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlUserPassComment.Controls.Add(this.txtWebPageName);
             this.pnlUserPassComment.Controls.Add(this.lblCharCounterForTxtComment);
             this.pnlUserPassComment.Controls.Add(this.btnEvent);
             this.pnlUserPassComment.Controls.Add(this.btnGen);
@@ -240,6 +240,15 @@
             this.pnlUserPassComment.Size = new System.Drawing.Size(351, 447);
             this.pnlUserPassComment.TabIndex = 1;
             // 
+            // lblCharCounterForTxtComment
+            // 
+            this.lblCharCounterForTxtComment.AutoSize = true;
+            this.lblCharCounterForTxtComment.Location = new System.Drawing.Point(241, 287);
+            this.lblCharCounterForTxtComment.Name = "lblCharCounterForTxtComment";
+            this.lblCharCounterForTxtComment.Size = new System.Drawing.Size(44, 17);
+            this.lblCharCounterForTxtComment.TabIndex = 8;
+            this.lblCharCounterForTxtComment.Text = "0/250";
+            // 
             // btnEvent
             // 
             this.btnEvent.BackColor = System.Drawing.Color.MintCream;
@@ -251,6 +260,7 @@
             this.btnEvent.TabIndex = 7;
             this.btnEvent.Text = "Přidat";
             this.btnEvent.UseVisualStyleBackColor = false;
+            this.btnEvent.Click += new System.EventHandler(this.BtnEvent_Click);
             // 
             // btnGen
             // 
@@ -289,7 +299,7 @@
             // 
             this.btnCopyUsername.BackColor = System.Drawing.Color.LightBlue;
             this.btnCopyUsername.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCopyUsername.Location = new System.Drawing.Point(241, 36);
+            this.btnCopyUsername.Location = new System.Drawing.Point(241, 70);
             this.btnCopyUsername.Name = "btnCopyUsername";
             this.btnCopyUsername.Size = new System.Drawing.Size(23, 23);
             this.btnCopyUsername.TabIndex = 3;
@@ -320,7 +330,7 @@
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(14, 36);
+            this.txtUsername.Location = new System.Drawing.Point(14, 71);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(221, 22);
             this.txtUsername.TabIndex = 0;
@@ -329,47 +339,32 @@
             // 
             // pnlListView
             // 
-            this.pnlListView.Controls.Add(this.lstView);
+            this.pnlListView.Controls.Add(this.dtGridView);
             this.pnlListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlListView.Location = new System.Drawing.Point(0, 0);
             this.pnlListView.Name = "pnlListView";
             this.pnlListView.Size = new System.Drawing.Size(919, 447);
             this.pnlListView.TabIndex = 0;
             // 
-            // lstView
+            // txtWebPageName
             // 
-            this.lstView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmnHeader,
-            this.clmnUsername,
-            this.clmnPass});
-            this.lstView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstView.HideSelection = false;
-            this.lstView.Location = new System.Drawing.Point(0, 0);
-            this.lstView.Name = "lstView";
-            this.lstView.Size = new System.Drawing.Size(919, 447);
-            this.lstView.TabIndex = 0;
-            this.lstView.UseCompatibleStateImageBehavior = false;
+            this.txtWebPageName.Location = new System.Drawing.Point(14, 43);
+            this.txtWebPageName.Name = "txtWebPageName";
+            this.txtWebPageName.Size = new System.Drawing.Size(221, 22);
+            this.txtWebPageName.TabIndex = 9;
+            this.txtWebPageName.Enter += new System.EventHandler(this.TxtName_Enter);
+            this.txtWebPageName.Leave += new System.EventHandler(this.TxtName_Leave);
             // 
-            // clmnHeader
+            // dtGridView
             // 
-            this.clmnHeader.Text = "Název";
-            // 
-            // clmnUsername
-            // 
-            this.clmnUsername.Text = "username";
-            // 
-            // clmnPass
-            // 
-            this.clmnPass.Text = "Heslo";
-            // 
-            // lblCharCounterForTxtComment
-            // 
-            this.lblCharCounterForTxtComment.AutoSize = true;
-            this.lblCharCounterForTxtComment.Location = new System.Drawing.Point(241, 287);
-            this.lblCharCounterForTxtComment.Name = "lblCharCounterForTxtComment";
-            this.lblCharCounterForTxtComment.Size = new System.Drawing.Size(44, 17);
-            this.lblCharCounterForTxtComment.TabIndex = 8;
-            this.lblCharCounterForTxtComment.Text = "0/250";
+            this.dtGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtGridView.Location = new System.Drawing.Point(0, 0);
+            this.dtGridView.Name = "dtGridView";
+            this.dtGridView.RowHeadersWidth = 51;
+            this.dtGridView.RowTemplate.Height = 24;
+            this.dtGridView.Size = new System.Drawing.Size(919, 447);
+            this.dtGridView.TabIndex = 0;
             // 
             // PullForm
             // 
@@ -394,6 +389,7 @@
             this.pnlUserPassComment.ResumeLayout(false);
             this.pnlUserPassComment.PerformLayout();
             this.pnlListView.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dtGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -420,13 +416,11 @@
         private System.Windows.Forms.TextBox txtComments;
         private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.ListView lstView;
-        private System.Windows.Forms.ColumnHeader clmnHeader;
-        private System.Windows.Forms.ColumnHeader clmnUsername;
-        private System.Windows.Forms.ColumnHeader clmnPass;
         private System.Windows.Forms.Label lblActualMode;
         private System.Windows.Forms.Button btnEvent;
         private System.Windows.Forms.Button btnGen;
         private System.Windows.Forms.Label lblCharCounterForTxtComment;
+        private System.Windows.Forms.TextBox txtWebPageName;
+        private System.Windows.Forms.DataGridView dtGridView;
     }
 }
