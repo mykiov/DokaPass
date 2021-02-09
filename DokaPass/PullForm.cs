@@ -25,21 +25,62 @@ namespace DokaPass
         }
 
         #region deklarace
-        string binPath;
-        string accsPath;
         string key, username;
         string DisplayMode;// is for change mode between view, create, edit  delete
         #endregion
 
-        #region ListView view refresh
-        private void DataGridView_Update()///////////////////////////////////////////////////////////////////////////////////////08.02.2021
+        #region DataGridView
+
+        private void DataGridView_Refresh()
         {
             string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
             StreamReader strmR = new StreamReader(binPath + "\\" + key + ".csv");
+            List<string> dtgridViewData = new List<string>();
             string dataVsouboru;
+
             while((dataVsouboru = (strmR.ReadLine())) != null)
             {
-                
+                dtgridViewData.Add(dataVsouboru);
+            }
+            dtGridView.Rows.Clear();
+            dtGridView.ColumnCount = 4;
+            dtGridView.Columns[0].Name = "Název:";
+            dtGridView.Columns[1].Name = "Username:";
+            dtGridView.Columns[2].Name = "Heslo:";
+            dtGridView.Columns[3].Name = "Poznámka:";
+
+            for (int i = 0; i < dtgridViewData.Count; i++)
+            {
+                dtGridView.Rows.Add(dtgridViewData[i].Split(';')[0], dtgridViewData[i].Split(';')[1], dtgridViewData[i].Split(';')[2], dtgridViewData[i].Split(';')[3]);
+            }
+            dtGridView.Refresh();
+            strmR.Close();
+            textbox_fill();
+        }
+
+        private void DataGridView_Upload()
+        {
+            if (txtWebPageName.ForeColor == Color.Gray && txtUsername.ForeColor == Color.Gray && txtPass.ForeColor == Color.Gray && txtComments.ForeColor == Color.Gray) MessageBox.Show("Zadej data!");
+            else
+            {
+                if (txtWebPageName.ForeColor == Color.Gray) txtWebPageName.Text = "";
+                if (txtUsername.ForeColor == Color.Gray) txtUsername.Text = "";
+                if (txtPass.ForeColor == Color.Gray) txtPass.Text = "";
+                if (txtComments.ForeColor == Color.Gray) txtComments.Text = "";
+                dtGridView.Rows.Add(txtWebPageName.Text, txtUsername.Text, txtPass.Text, txtComments.Text);
+
+
+                string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".csv");
+                for(int i = 0; i<dtGridView.RowCount;i++)
+                {
+                    strmW.WriteLine(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value);
+                }
+                strmW.Close();
+                TxtName_SetText();
+                TxtUsername_SetText();
+                TxtPass_SetText();
+                TxtComments_SetText();
             }
         }
         #endregion
@@ -53,21 +94,13 @@ namespace DokaPass
         {
             if (DisplayMode == "create")
             {
-                string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-                StreamWriter strmW = new StreamWriter(binPath+"\\"+key+".csv");
-                strmW.WriteLine(txtWebPageName.Text + ";" + txtUsername.Text+";"+ txtPass.Text+";"+ txtComments.Text);
-                strmW.Close();
-                MessageBox.Show("Název: "+ txtWebPageName.Text + Environment.NewLine + "Username: "+txtUsername.Text+Environment.NewLine+"Heslo: " + txtPass.Text);
-                TxtName_SetText();
-                TxtUsername_SetText();
-                TxtPass_SetText();
-                TxtComments_SetText();
+                DataGridView_Upload();
             }
             else if (DisplayMode == "edit")
             {
 
             }
-            DataGridView_Update();
+            DataGridView_Refresh();
         }
 
         #region Buttons
@@ -91,8 +124,26 @@ namespace DokaPass
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            DisplayMode = "delete";
-            AfterButtonClick();
+            foreach (DataGridViewRow row in dtGridView.SelectedRows)
+            {
+                DialogResult msgbx = MessageBox.Show("Chcete odstránít řádek?", "", MessageBoxButtons.YesNo);
+                if (msgbx == DialogResult.Yes)
+                {
+                    dtGridView.Rows.RemoveAt(row.Index);
+                    dtGridView.Refresh();
+                    string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+                    StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".csv");
+                    for (int i = 0; i < dtGridView.RowCount; i++)
+                    {
+                        strmW.WriteLine(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value);
+                    }
+                    strmW.Close();
+                    TxtName_SetText();
+                    TxtPass_SetText();
+                    TxtUsername_SetText();
+                    TxtComments_SetText();
+                }
+            }
         }
         #endregion
 
@@ -114,6 +165,8 @@ namespace DokaPass
             //right pnl
             pnlUserPassComment.Size = new Size(((this.Width / 100) * 35), this.Height - pnlTop.Height);
             lblActualMode.Location = new Point(20, 20);
+            //left pnl
+            pnlDataGridView.Width = this.Width - pnlUserPassComment.Width;
             //username
             txtUsername.Size = new Size(pnlUserPassComment.Width / 2, 40);
             txtUsername.Location = new Point(pnlUserPassComment.Width / 2 - pnlUserPassComment.Width / 4, pnlUserPassComment.Height / 2 - pnlUserPassComment.Height / 4);
@@ -162,8 +215,20 @@ namespace DokaPass
 
         protected void TxtName_SetText()
         {
-            this.txtWebPageName.Text = "Název web stránky";
-            txtWebPageName.ForeColor = Color.Gray;
+            if (DisplayMode == "view" || DisplayMode == "edit")
+            {
+                if (dtGridView.Rows.Count == 0)
+                {
+                    this.txtWebPageName.Text = "Název web stránky";
+                    txtWebPageName.ForeColor = Color.Gray;
+                }
+                else textbox_fill();
+            }
+            else
+            {
+                this.txtWebPageName.Text = "Název web stránky";
+                txtWebPageName.ForeColor = Color.Gray;
+            }
         }
         private void TxtName_Leave(object sender, EventArgs e)
         {
@@ -190,8 +255,20 @@ namespace DokaPass
         }
         protected void TxtUsername_SetText()
         {
-            this.txtUsername.Text = "Jméno";
-            txtUsername.ForeColor = Color.Gray;
+            if (DisplayMode == "view" || DisplayMode == "edit")
+            {
+                if (dtGridView.Rows.Count == 0)
+                {
+                    this.txtUsername.Text = "Jméno";
+                    txtUsername.ForeColor = Color.Gray;
+                }
+                else textbox_fill();
+            }
+            else
+            {
+                this.txtUsername.Text = "Jméno";
+                txtUsername.ForeColor = Color.Gray;
+            }
         }
 
 
@@ -208,8 +285,20 @@ namespace DokaPass
         }
         protected void TxtPass_SetText()
         {
-            this.txtPass.Text = "Heslo";
-            txtPass.ForeColor = Color.Gray;
+            if (DisplayMode == "view" || DisplayMode == "edit")
+            {
+                if (dtGridView.Rows.Count == 0)
+                {
+                    this.txtPass.Text = "Heslo";
+                    txtPass.ForeColor = Color.Gray;
+                }
+                else textbox_fill();
+            }
+            else
+            {
+                this.txtPass.Text = "Heslo";
+                txtPass.ForeColor = Color.Gray;
+            }
         }
 
 
@@ -226,9 +315,42 @@ namespace DokaPass
         }
         protected void TxtComments_SetText()
         {
-            this.txtComments.Text = "Poznámka";
-            lblCharCounterForTxtComment.Text = "0/250";
-            txtComments.ForeColor = Color.Gray;
+            if (DisplayMode == "view" || DisplayMode == "edit")
+            {
+                if (dtGridView.Rows.Count == 0)
+                {
+                    this.txtComments.Text = "Poznámka";
+                    lblCharCounterForTxtComment.Text = "0/250";
+                    txtComments.ForeColor = Color.Gray;
+                }
+                else textbox_fill();
+            }
+            else
+            {
+                this.txtComments.Text = "Poznámka";
+                lblCharCounterForTxtComment.Text = "0/250";
+                txtComments.ForeColor = Color.Gray;
+            }
+        }
+        #endregion
+
+        #region textbox filling
+        private void textbox_fill()
+        {
+            if (DisplayMode == "view" || DisplayMode == "edit")
+            {
+                foreach (DataGridViewRow row in dtGridView.SelectedRows)
+                {
+                    txtWebPageName.Text = row.Cells[0].Value.ToString();
+                    txtUsername.Text = row.Cells[1].Value.ToString();
+                    txtPass.Text = row.Cells[2].Value.ToString();
+                    txtComments.Text = row.Cells[3].Value.ToString();
+                    txtWebPageName.ForeColor = Color.Black;
+                    txtUsername.ForeColor = Color.Black;
+                    txtPass.ForeColor = Color.Black;
+                    txtComments.ForeColor = Color.Black;
+                }
+            }
         }
         #endregion
 
@@ -294,20 +416,11 @@ namespace DokaPass
                 txtComments.ReadOnly = false;
 
             }
-            else if (DisplayMode == "delete")
-            {
-                lblActualMode.Text = "";
-                pnlUserPassComment.Hide();
-                btnDelete.BackColor = Color.FromArgb(198, 115, 87);
-                btnEdit.BackColor = Color.Turquoise;
-                btnADD.BackColor = Color.Turquoise;
-                btnSpectate.BackColor = Color.Turquoise;
-
-            }
+            TxtName_SetText();
             TxtUsername_SetText();
             TxtPass_SetText();
             TxtComments_SetText();
-            DataGridView_Update();
+            DataGridView_Refresh();
         }
         private void PullForm_Load(object sender, EventArgs e)
         {
@@ -328,6 +441,11 @@ namespace DokaPass
         {
             if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
             this.Hide();
+        }
+
+        private void DtGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            textbox_fill();
         }
 
         private void PullForm_FormClosing(object sender, FormClosingEventArgs e)

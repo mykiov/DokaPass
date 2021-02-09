@@ -42,6 +42,7 @@
             this.lblHelloMoment = new System.Windows.Forms.Label();
             this.pnlBody = new System.Windows.Forms.Panel();
             this.pnlUserPassComment = new System.Windows.Forms.Panel();
+            this.txtWebPageName = new System.Windows.Forms.TextBox();
             this.lblCharCounterForTxtComment = new System.Windows.Forms.Label();
             this.btnEvent = new System.Windows.Forms.Button();
             this.btnGen = new System.Windows.Forms.Button();
@@ -51,8 +52,7 @@
             this.txtComments = new System.Windows.Forms.TextBox();
             this.txtPass = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
-            this.pnlListView = new System.Windows.Forms.Panel();
-            this.txtWebPageName = new System.Windows.Forms.TextBox();
+            this.pnlDataGridView = new System.Windows.Forms.Panel();
             this.dtGridView = new System.Windows.Forms.DataGridView();
             this.pnlTop.SuspendLayout();
             this.pnlTopWithButtons.SuspendLayout();
@@ -61,7 +61,7 @@
             this.pnlAcc.SuspendLayout();
             this.pnlBody.SuspendLayout();
             this.pnlUserPassComment.SuspendLayout();
-            this.pnlListView.SuspendLayout();
+            this.pnlDataGridView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -213,7 +213,7 @@
             // pnlBody
             // 
             this.pnlBody.Controls.Add(this.pnlUserPassComment);
-            this.pnlBody.Controls.Add(this.pnlListView);
+            this.pnlBody.Controls.Add(this.pnlDataGridView);
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBody.Location = new System.Drawing.Point(0, 72);
             this.pnlBody.Name = "pnlBody";
@@ -239,6 +239,15 @@
             this.pnlUserPassComment.Name = "pnlUserPassComment";
             this.pnlUserPassComment.Size = new System.Drawing.Size(351, 447);
             this.pnlUserPassComment.TabIndex = 1;
+            // 
+            // txtWebPageName
+            // 
+            this.txtWebPageName.Location = new System.Drawing.Point(14, 43);
+            this.txtWebPageName.Name = "txtWebPageName";
+            this.txtWebPageName.Size = new System.Drawing.Size(221, 22);
+            this.txtWebPageName.TabIndex = 9;
+            this.txtWebPageName.Enter += new System.EventHandler(this.TxtName_Enter);
+            this.txtWebPageName.Leave += new System.EventHandler(this.TxtName_Leave);
             // 
             // lblCharCounterForTxtComment
             // 
@@ -337,34 +346,33 @@
             this.txtUsername.Enter += new System.EventHandler(this.TxtUsername_Enter);
             this.txtUsername.Leave += new System.EventHandler(this.TxtUsername_Leave);
             // 
-            // pnlListView
+            // pnlDataGridView
             // 
-            this.pnlListView.Controls.Add(this.dtGridView);
-            this.pnlListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlListView.Location = new System.Drawing.Point(0, 0);
-            this.pnlListView.Name = "pnlListView";
-            this.pnlListView.Size = new System.Drawing.Size(919, 447);
-            this.pnlListView.TabIndex = 0;
-            // 
-            // txtWebPageName
-            // 
-            this.txtWebPageName.Location = new System.Drawing.Point(14, 43);
-            this.txtWebPageName.Name = "txtWebPageName";
-            this.txtWebPageName.Size = new System.Drawing.Size(221, 22);
-            this.txtWebPageName.TabIndex = 9;
-            this.txtWebPageName.Enter += new System.EventHandler(this.TxtName_Enter);
-            this.txtWebPageName.Leave += new System.EventHandler(this.TxtName_Leave);
+            this.pnlDataGridView.Controls.Add(this.dtGridView);
+            this.pnlDataGridView.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.pnlDataGridView.Name = "pnlDataGridView";
+            this.pnlDataGridView.Size = new System.Drawing.Size(919, 447);
+            this.pnlDataGridView.TabIndex = 0;
             // 
             // dtGridView
             // 
+            this.dtGridView.AllowUserToAddRows = false;
+            this.dtGridView.AllowUserToDeleteRows = false;
+            this.dtGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dtGridView.Location = new System.Drawing.Point(0, 0);
             this.dtGridView.Name = "dtGridView";
+            this.dtGridView.RowHeadersVisible = false;
             this.dtGridView.RowHeadersWidth = 51;
             this.dtGridView.RowTemplate.Height = 24;
+            this.dtGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtGridView.Size = new System.Drawing.Size(919, 447);
             this.dtGridView.TabIndex = 0;
+            this.dtGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DtGridView_CellMouseClick);
             // 
             // PullForm
             // 
@@ -388,7 +396,7 @@
             this.pnlBody.ResumeLayout(false);
             this.pnlUserPassComment.ResumeLayout(false);
             this.pnlUserPassComment.PerformLayout();
-            this.pnlListView.ResumeLayout(false);
+            this.pnlDataGridView.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtGridView)).EndInit();
             this.ResumeLayout(false);
 
@@ -405,7 +413,7 @@
         private System.Windows.Forms.Panel pnlAcc;
         private System.Windows.Forms.Panel pnlBody;
         private System.Windows.Forms.Panel pnlUserPassComment;
-        private System.Windows.Forms.Panel pnlListView;
+        private System.Windows.Forms.Panel pnlDataGridView;
         private System.Windows.Forms.Panel pnlTopButtonsAddEdit;
         private System.Windows.Forms.Button btnSpectate;
         private System.Windows.Forms.Panel pnlSpace;
