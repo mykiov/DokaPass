@@ -101,7 +101,7 @@
             // 
             // btnSpectate
             // 
-            this.btnSpectate.BackColor = System.Drawing.Color.Turquoise;
+            this.btnSpectate.BackColor = System.Drawing.Color.SkyBlue;
             this.btnSpectate.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnSpectate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSpectate.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -115,7 +115,7 @@
             // 
             // btnADD
             // 
-            this.btnADD.BackColor = System.Drawing.Color.Turquoise;
+            this.btnADD.BackColor = System.Drawing.Color.SkyBlue;
             this.btnADD.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnADD.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnADD.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -129,7 +129,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.BackColor = System.Drawing.Color.Turquoise;
+            this.btnEdit.BackColor = System.Drawing.Color.SkyBlue;
             this.btnEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEdit.Font = new System.Drawing.Font("Helvetica", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));

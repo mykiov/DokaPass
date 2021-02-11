@@ -77,10 +77,12 @@ namespace DokaPass
                     strmW.WriteLine(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value);
                 }
                 strmW.Close();
-                TxtName_SetText();
-                TxtUsername_SetText();
-                TxtPass_SetText();
-                TxtComments_SetText();
+                //TxtName_SetText();
+                //TxtUsername_SetText();
+                //TxtPass_SetText();
+                //TxtComments_SetText();
+                DisplayMode = "view";
+                AfterButtonClick();
             }
         }
         #endregion
@@ -98,7 +100,8 @@ namespace DokaPass
             }
             else if (DisplayMode == "edit")
             {
-
+                DisplayMode = "view";
+                AfterButtonClick();
             }
             DataGridView_Refresh();
         }
@@ -368,9 +371,9 @@ namespace DokaPass
             {
                 lblActualMode.Text = "Prohlížení";
                 pnlUserPassComment.Show();
-                btnSpectate.BackColor = Color.FromArgb(28, 188, 172);
-                btnEdit.BackColor = Color.Turquoise;
-                btnADD.BackColor = Color.Turquoise;
+                btnSpectate.BackColor = Color.FromArgb(72, 143, 172);
+                btnEdit.BackColor = Color.SkyBlue;
+                btnADD.BackColor = Color.SkyBlue;
                 btnDelete.BackColor = Color.DarkSalmon;
                 btnCopyPass.Show();
                 btnGen.Hide();
@@ -385,9 +388,9 @@ namespace DokaPass
             {
                 lblActualMode.Text = "Nový";
                 pnlUserPassComment.Show();
-                btnADD.BackColor = Color.FromArgb(28, 188, 172);
-                btnEdit.BackColor = Color.Turquoise;
-                btnSpectate.BackColor = Color.Turquoise;
+                btnADD.BackColor = Color.FromArgb(72, 143, 172);
+                btnEdit.BackColor = Color.SkyBlue;
+                btnSpectate.BackColor = Color.SkyBlue;
                 btnDelete.BackColor = Color.DarkSalmon;
                 btnCopyPass.Hide();
                 btnGen.Show();
@@ -402,9 +405,9 @@ namespace DokaPass
             {
                 lblActualMode.Text = "Upravit";
                 pnlUserPassComment.Show();
-                btnEdit.BackColor = Color.FromArgb(28, 188, 172);
-                btnSpectate.BackColor = Color.Turquoise;
-                btnADD.BackColor = Color.Turquoise;
+                btnEdit.BackColor = Color.FromArgb(72, 143, 172);
+                btnSpectate.BackColor = Color.SkyBlue;
+                btnADD.BackColor = Color.SkyBlue;
                 btnDelete.BackColor = Color.DarkSalmon;
                 btnCopyPass.Hide();
                 btnGen.Show();
