@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows;
 
 namespace DokaPass
 {
@@ -27,6 +28,7 @@ namespace DokaPass
         #region deklarace
         string key, username;
         string DisplayMode;// is for change mode between view, create, edit  delete
+        int actualCell;
         #endregion
 
         #region DataGridView
@@ -56,6 +58,40 @@ namespace DokaPass
             dtGridView.Refresh();
             strmR.Close();
             textbox_fill();
+        }
+
+        private void DataGridView_Edit()
+        {
+            if (dtGridView.SelectedRows == null) MessageBox.Show("Nelze nic upravit");
+            else
+            {
+
+                foreach (DataGridViewRow row in dtGridView.SelectedRows)
+                {
+                    if(txtWebPageName.Text == "")txtWebPageName.Text = " ";
+                    row.Cells[0].Value = txtWebPageName.Text;
+
+                    if (txtUsername.Text == "") txtUsername.Text = " ";
+                    row.Cells[1].Value = txtUsername.Text;
+
+                    if (txtPass.Text == "") txtPass.Text = " ";
+                    row.Cells[2].Value = txtPass.Text;
+
+                    if (txtComments.Text == "") txtComments.Text = " ";
+                    row.Cells[3].Value = txtComments.Text;
+                }
+
+
+                string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".csv");
+                for (int i = 0; i < dtGridView.RowCount; i++)
+                {
+                    strmW.WriteLine(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value);
+                }
+                strmW.Close();
+                DisplayMode = "view";
+                AfterButtonClick();
+            }
         }
 
         private void DataGridView_Upload()
@@ -100,8 +136,7 @@ namespace DokaPass
             }
             else if (DisplayMode == "edit")
             {
-                DisplayMode = "view";
-                AfterButtonClick();
+                DataGridView_Edit();
             }
             DataGridView_Refresh();
         }
@@ -229,7 +264,7 @@ namespace DokaPass
             }
             else
             {
-                this.txtWebPageName.Text = "Název web stránky";
+                this.txtWebPageName.Text = "Název";
                 txtWebPageName.ForeColor = Color.Gray;
             }
         }
@@ -427,8 +462,9 @@ namespace DokaPass
         }
         private void PullForm_Load(object sender, EventArgs e)
         {
-            lblHelloMoment.Text = "Hi, " + username + "!";
+            lblHelloMoment.Text = "Ahoj, " + username + "!";
             DisplayMode = "view";
+            actualCell = 0;
             Textboxes_Load();
             AfterButtonClick();
             PageDesign();
@@ -445,10 +481,56 @@ namespace DokaPass
             if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
             this.Hide();
         }
-
+        
         private void DtGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             textbox_fill();
+        }
+
+        private void BtnCopyUsername_Click(object sender, EventArgs e)
+        {
+            if (txtUsername.Text == "Jméno" || txtUsername.Text == "" || txtUsername.Text == null || txtUsername.Text == " " || txtUsername.ForeColor == Color.Gray)
+            {
+                MessageBox.Show("Nelze, nejsou data");
+            }
+            else
+            {
+                try
+                {
+                    Clipboard.SetText(txtUsername.Text);
+                    MessageBox.Show(txtUsername.Text + " je uložen do clipboardu.");
+                }
+                catch { }
+            }
+        }
+
+        private void BtnCopyPass_Click(object sender, EventArgs e)
+        {
+            if (txtPass.Text == "Heslo" || txtPass.Text == "" || txtPass.Text == null || txtPass.Text == " " || txtPass.ForeColor == Color.Gray)
+            {
+                MessageBox.Show("Nelze, nejsou data");
+            }
+            else
+            {
+                try
+                {
+                    Clipboard.SetText(txtPass.Text);
+                    MessageBox.Show(txtPass.Text + " je uložen do clipboardu.");
+                }
+                catch { }
+            }
+        }
+
+        private void BtnGen_Click(object sender, EventArgs e)
+        {
+            using (PassGenerateForm gnrForm = new PassGenerateForm())
+            {
+                if (gnrForm.ShowDialog() == DialogResult.OK)
+                {
+                    txtPass.Text = gnrForm.TheValue;
+                    txtPass.ForeColor = Color.Black;
+                }
+            }
         }
 
         private void PullForm_FormClosing(object sender, FormClosingEventArgs e)

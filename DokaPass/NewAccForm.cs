@@ -36,7 +36,7 @@ namespace DokaPass
         }
         private void NewAcc(string name, string pin, string key)//create new acc
         {
-            DialogResult dialogResult = MessageBox.Show("Name: " + name + Environment.NewLine + "PIN: " + pin + Environment.NewLine + "RIGHT?", "Verify", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Jméno: " + name + Environment.NewLine + "PIN: " + pin + Environment.NewLine + "Správně?", "Ověření", MessageBoxButtons.YesNo);
 
             if(dialogResult == DialogResult.Yes)
             {

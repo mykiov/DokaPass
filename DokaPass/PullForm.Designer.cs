@@ -281,6 +281,7 @@
             this.btnGen.TabIndex = 6;
             this.btnGen.Text = "GEN";
             this.btnGen.UseVisualStyleBackColor = false;
+            this.btnGen.Click += new System.EventHandler(this.BtnGen_Click);
             // 
             // lblActualMode
             // 
@@ -303,6 +304,7 @@
             this.btnCopyPass.TabIndex = 4;
             this.btnCopyPass.Text = "C";
             this.btnCopyPass.UseVisualStyleBackColor = false;
+            this.btnCopyPass.Click += new System.EventHandler(this.BtnCopyPass_Click);
             // 
             // btnCopyUsername
             // 
@@ -314,6 +316,7 @@
             this.btnCopyUsername.TabIndex = 3;
             this.btnCopyUsername.Text = "C";
             this.btnCopyUsername.UseVisualStyleBackColor = false;
+            this.btnCopyUsername.Click += new System.EventHandler(this.BtnCopyUsername_Click);
             // 
             // txtComments
             // 
