@@ -142,7 +142,7 @@
             this.Controls.Add(this.pnlTop);
             this.Name = "LogInForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DokaPass - Přihlášení";
+            this.Text = "Doka - Přihlášení";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LogInForm_FormClosing);
             this.Load += new System.EventHandler(this.LogInForm_Load);
             this.Resize += new System.EventHandler(this.LogInForm_Resize);

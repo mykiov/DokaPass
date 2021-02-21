@@ -386,7 +386,7 @@
             this.Controls.Add(this.pnlTop);
             this.Name = "PullForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DokaPass";
+            this.Text = "Doka";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PullForm_FormClosing);
             this.Load += new System.EventHandler(this.PullForm_Load);
             this.Resize += new System.EventHandler(this.PullForm_Resize);

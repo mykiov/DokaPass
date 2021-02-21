@@ -82,9 +82,9 @@
             this.lblHeader.ForeColor = System.Drawing.Color.White;
             this.lblHeader.Location = new System.Drawing.Point(397, 32);
             this.lblHeader.Name = "lblHeader";
-            this.lblHeader.Size = new System.Drawing.Size(164, 38);
+            this.lblHeader.Size = new System.Drawing.Size(402, 38);
             this.lblHeader.TabIndex = 0;
-            this.lblHeader.Text = "DokaPass";
+            this.lblHeader.Text = "Doka - Password manager";
             // 
             // Form1
             // 
@@ -96,7 +96,7 @@
             this.Controls.Add(this.btnLogIn);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DokaPass - Menu";
+            this.Text = "Doka - Menu";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);

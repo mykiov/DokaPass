@@ -220,7 +220,7 @@
             this.Controls.Add(this.pnlTop);
             this.Name = "NewAccForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DokaPass - Nový účet";
+            this.Text = "Doka - Nový účet";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewAccForm_FormClosing);
             this.Load += new System.EventHandler(this.NewAccForm_Load);
             this.Resize += new System.EventHandler(this.NewAccForm_Resize);

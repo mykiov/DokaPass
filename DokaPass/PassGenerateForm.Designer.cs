@@ -32,10 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblDelkaHesla = new System.Windows.Forms.Label();
             this.grpBxTypy = new System.Windows.Forms.GroupBox();
-            this.chkMalaPismena = new System.Windows.Forms.CheckBox();
-            this.chkVelkaPismena = new System.Windows.Forms.CheckBox();
-            this.chkCisla = new System.Windows.Forms.CheckBox();
             this.chkSymboly = new System.Windows.Forms.CheckBox();
+            this.chkCisla = new System.Windows.Forms.CheckBox();
+            this.chkVelkaPismena = new System.Windows.Forms.CheckBox();
+            this.chkMalaPismena = new System.Windows.Forms.CheckBox();
             this.btnGenerovat = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.grpBxTypy.SuspendLayout();
@@ -80,25 +80,15 @@
             this.grpBxTypy.TabIndex = 3;
             this.grpBxTypy.TabStop = false;
             // 
-            // chkMalaPismena
+            // chkSymboly
             // 
-            this.chkMalaPismena.AutoSize = true;
-            this.chkMalaPismena.Location = new System.Drawing.Point(115, 26);
-            this.chkMalaPismena.Name = "chkMalaPismena";
-            this.chkMalaPismena.Size = new System.Drawing.Size(117, 21);
-            this.chkMalaPismena.TabIndex = 0;
-            this.chkMalaPismena.Text = "Malá písmena";
-            this.chkMalaPismena.UseVisualStyleBackColor = true;
-            // 
-            // chkVelkaPismena
-            // 
-            this.chkVelkaPismena.AutoSize = true;
-            this.chkVelkaPismena.Location = new System.Drawing.Point(115, 57);
-            this.chkVelkaPismena.Name = "chkVelkaPismena";
-            this.chkVelkaPismena.Size = new System.Drawing.Size(122, 21);
-            this.chkVelkaPismena.TabIndex = 1;
-            this.chkVelkaPismena.Text = "Velká písmena";
-            this.chkVelkaPismena.UseVisualStyleBackColor = true;
+            this.chkSymboly.AutoSize = true;
+            this.chkSymboly.Location = new System.Drawing.Point(256, 57);
+            this.chkSymboly.Name = "chkSymboly";
+            this.chkSymboly.Size = new System.Drawing.Size(83, 21);
+            this.chkSymboly.TabIndex = 3;
+            this.chkSymboly.Text = "Symboly";
+            this.chkSymboly.UseVisualStyleBackColor = true;
             // 
             // chkCisla
             // 
@@ -110,15 +100,25 @@
             this.chkCisla.Text = "Čísla";
             this.chkCisla.UseVisualStyleBackColor = true;
             // 
-            // chkSymboly
+            // chkVelkaPismena
             // 
-            this.chkSymboly.AutoSize = true;
-            this.chkSymboly.Location = new System.Drawing.Point(256, 57);
-            this.chkSymboly.Name = "chkSymboly";
-            this.chkSymboly.Size = new System.Drawing.Size(83, 21);
-            this.chkSymboly.TabIndex = 3;
-            this.chkSymboly.Text = "Symboly";
-            this.chkSymboly.UseVisualStyleBackColor = true;
+            this.chkVelkaPismena.AutoSize = true;
+            this.chkVelkaPismena.Location = new System.Drawing.Point(115, 57);
+            this.chkVelkaPismena.Name = "chkVelkaPismena";
+            this.chkVelkaPismena.Size = new System.Drawing.Size(122, 21);
+            this.chkVelkaPismena.TabIndex = 1;
+            this.chkVelkaPismena.Text = "Velká písmena";
+            this.chkVelkaPismena.UseVisualStyleBackColor = true;
+            // 
+            // chkMalaPismena
+            // 
+            this.chkMalaPismena.AutoSize = true;
+            this.chkMalaPismena.Location = new System.Drawing.Point(115, 26);
+            this.chkMalaPismena.Name = "chkMalaPismena";
+            this.chkMalaPismena.Size = new System.Drawing.Size(117, 21);
+            this.chkMalaPismena.TabIndex = 0;
+            this.chkMalaPismena.Text = "Malá písmena";
+            this.chkMalaPismena.UseVisualStyleBackColor = true;
             // 
             // btnGenerovat
             // 
@@ -145,7 +145,6 @@
             this.MinimumSize = new System.Drawing.Size(500, 300);
             this.Name = "PassGenerateForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PassGenerateForm";
             this.Load += new System.EventHandler(this.PassGenerateForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.grpBxTypy.ResumeLayout(false);
