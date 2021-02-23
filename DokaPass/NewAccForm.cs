@@ -24,6 +24,7 @@ namespace DokaPass
 
         string key;
         generation gen;
+        int delka;
 
         private void BtnCreate_Click(object sender, EventArgs e)
         {
@@ -114,15 +115,40 @@ namespace DokaPass
         #region textbox verify
         private void TxtUsername_TextChanged(object sender, EventArgs e)
         {
-            if (txtUsername.Text.Length >= 4)
+            //osetreni pri spatnym znakum
+            if (txtUsername.Text.Length != 0)
             {
-                lblInfoMinimumChars.ForeColor = Color.Green;
+                char[] allowedChars = new char[] { 'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+                delka = txtUsername.Text.Length;
+
+                for (int i = 0; i < txtUsername.Text.Length; i++)
+                {
+                    for (int j = 0; j < allowedChars.Length; j++)
+                    {
+                        if (Convert.ToChar(txtUsername.Text.ElementAt(i))== allowedChars[j])
+                        {
+                            delka = delka - 1;
+                        }
+                    }
+                }
+
+                if (txtUsername.Text.Length >= 4)
+                {
+                    if (delka == 0)
+                    {
+                        lblInfoMinimumChars.ForeColor = Color.Green;
+                    }
+                    else lblInfoMinimumChars.ForeColor = Color.Red;
+                }
+                else
+                {
+                    lblInfoMinimumChars.ForeColor = Color.Red;
+                }
+
             }
-            else
-            {
-                lblInfoMinimumChars.ForeColor = Color.Red;
-            }
-        }//username
+        }
+
+        //username
 
         private void TxtPIN_TextChanged(object sender, EventArgs e)
         {
@@ -130,7 +156,25 @@ namespace DokaPass
             {
                 if (Convert.ToInt32(txtPIN.Text.Length) >= 4 && Convert.ToInt32(txtPIN.Text.Length) <= 8)
                 {
-                    lblnfoPIN.ForeColor = Color.Green;
+                    char[] allowedChars = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+                    delka = txtPIN.Text.Length;
+
+                    for (int i = 0; i < txtPIN.Text.Length; i++)
+                    {
+                        for (int j = 0; j < allowedChars.Length; j++)
+                        {
+                            if (Convert.ToChar(txtPIN.Text.ElementAt(i)) == allowedChars[j])
+                            {
+                                delka = delka - 1;
+                            }
+                        }
+                    }
+
+                    if (delka == 0)
+                    {
+                        lblnfoPIN.ForeColor = Color.Green;
+                    }
+                    else lblnfoPIN.ForeColor = Color.Red;
                 }
                 else
                 {
@@ -164,21 +208,6 @@ namespace DokaPass
         {
             try
             {
-                if (Convert.ToInt32(txtPIN.Text.Length) >= 4 && Convert.ToInt32(txtPIN.Text.Length) <= 8)
-                {
-                    lblnfoPIN.ForeColor = Color.Green;
-                }
-                else
-                {
-                    lblnfoPIN.ForeColor = Color.Red;
-                }
-            }
-            catch
-            {
-
-            }
-            try
-            {
                 if (Convert.ToInt32(txtVerifyPIN.Text) == Convert.ToInt32(txtPIN.Text))
                 {
                     lblInfoVerifyPIN.Text = "schodné";
@@ -191,18 +220,16 @@ namespace DokaPass
                 }
             }
             catch
-            {
-
-            }
+            {}
         }//pin verify
         #endregion
+
 
         private void NewAccForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.OpenForms[0].Close();
             Application.Exit();
         }
-
 
 
         //Design

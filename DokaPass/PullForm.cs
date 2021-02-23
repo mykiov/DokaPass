@@ -123,7 +123,8 @@ namespace DokaPass
         }
         #endregion
 
-
+        #region Buttons
+        #region btnEvent - one button with more implementation
         private void BtnEvent_Click(object sender, EventArgs e)
         {
             BtnEventImplementation();
@@ -140,8 +141,70 @@ namespace DokaPass
             }
             DataGridView_Refresh();
         }
+        #endregion
 
-        #region Buttons
+        #region LogOut/Close Form
+
+        private void BtnLogOut_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
+            this.Hide();
+        }
+
+        private void PullForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.OpenForms[0].Close();
+            Application.Exit();
+        }
+        #endregion
+
+
+        private void BtnCopyUsername_Click(object sender, EventArgs e)
+        {
+            if (txtUsername.Text == "Jméno" || txtUsername.Text == "" || txtUsername.Text == null || txtUsername.Text == " " || txtUsername.ForeColor == Color.Gray)
+            {
+                MessageBox.Show("Nelze, nejsou data");
+            }
+            else
+            {
+                try
+                {
+                    Clipboard.SetText(txtUsername.Text);
+                    MessageBox.Show(txtUsername.Text + " je uložen do clipboardu.");
+                }
+                catch { }
+            }
+        }
+
+        private void BtnCopyPass_Click(object sender, EventArgs e)
+        {
+            if (txtPass.Text == "Heslo" || txtPass.Text == "" || txtPass.Text == null || txtPass.Text == " " || txtPass.ForeColor == Color.Gray)
+            {
+                MessageBox.Show("Nelze, nejsou data");
+            }
+            else
+            {
+                try
+                {
+                    Clipboard.SetText(txtPass.Text);
+                    MessageBox.Show(txtPass.Text + " je uložen do clipboardu.");
+                }
+                catch { }
+            }
+        }
+
+        private void BtnGen_Click(object sender, EventArgs e)
+        {
+            using (PassGenerateForm gnrForm = new PassGenerateForm())
+            {
+                if (gnrForm.ShowDialog() == DialogResult.OK)
+                {
+                    txtPass.Text = gnrForm.TheValue;
+                    txtPass.ForeColor = Color.Black;
+                }
+            }
+        }
+
         private void BtnADD_Click(object sender, EventArgs e)
         {
             DisplayMode = "create";
@@ -183,9 +246,72 @@ namespace DokaPass
                 }
             }
         }
+
+
+        private void AfterButtonClick()//graphics page after button click
+        {
+            if (DisplayMode == "view")
+            {
+                lblActualMode.Text = "Prohlížení";
+                pnlUserPassComment.Show();
+                btnSpectate.BackColor = Color.FromArgb(72, 143, 172);
+                btnEdit.BackColor = Color.SkyBlue;
+                btnADD.BackColor = Color.SkyBlue;
+                btnDelete.BackColor = Color.DarkSalmon;
+                btnCopyPass.Show();
+                btnGen.Hide();
+                btnEvent.Hide();
+                txtWebPageName.ReadOnly = true;
+                txtUsername.ReadOnly = true;
+                txtPass.ReadOnly = true;
+                txtComments.ReadOnly = true;
+
+            }
+            else if (DisplayMode == "create")
+            {
+                lblActualMode.Text = "Nový";
+                pnlUserPassComment.Show();
+                btnADD.BackColor = Color.FromArgb(72, 143, 172);
+                btnEdit.BackColor = Color.SkyBlue;
+                btnSpectate.BackColor = Color.SkyBlue;
+                btnDelete.BackColor = Color.DarkSalmon;
+                btnCopyPass.Hide();
+                btnGen.Show();
+                btnEvent.Text = "Přidat";
+                btnEvent.Show();
+                txtWebPageName.ReadOnly = false;
+                txtUsername.ReadOnly = false;
+                txtPass.ReadOnly = false;
+                txtComments.ReadOnly = false;
+            }
+            else if (DisplayMode == "edit")
+            {
+                lblActualMode.Text = "Upravit";
+                pnlUserPassComment.Show();
+                btnEdit.BackColor = Color.FromArgb(72, 143, 172);
+                btnSpectate.BackColor = Color.SkyBlue;
+                btnADD.BackColor = Color.SkyBlue;
+                btnDelete.BackColor = Color.DarkSalmon;
+                btnCopyPass.Hide();
+                btnGen.Show();
+                btnEvent.Text = "Upravit";
+                btnEvent.Show();
+                txtWebPageName.ReadOnly = false;
+                txtUsername.ReadOnly = false;
+                txtPass.ReadOnly = false;
+                txtComments.ReadOnly = false;
+
+            }
+            TxtName_SetText();
+            TxtUsername_SetText();
+            TxtPass_SetText();
+            TxtComments_SetText();
+            DataGridView_Refresh();
+        }
+
         #endregion
 
-        #region PAGE_DESIGN //// ONLY DESIGN
+        #region PAGE_DESIGN //// ONLY DESIGN // for transformable design
         private void PageDesign()
         {
             this.MinimumSize = new System.Drawing.Size(800, 600);
@@ -228,6 +354,13 @@ namespace DokaPass
             btnEvent.Size = new Size(txtPass.Width, 30);
             btnEvent.Location = new Point(txtComments.Location.X, txtComments.Location.Y + txtComments.Height + 5);
 
+        }
+        private void TxtComments_TextChanged(object sender, EventArgs e)
+        {
+            if (txtComments.ForeColor == Color.Black)
+            {
+                lblCharCounterForTxtComment.Text = txtComments.Text.Length + "/250";
+            }
         }
 
         #region textbox gray note
@@ -372,7 +505,7 @@ namespace DokaPass
         }
         #endregion
 
-        #region textbox filling
+        #region textboxes filling
         private void textbox_fill()
         {
             if (DisplayMode == "view" || DisplayMode == "edit")
@@ -391,75 +524,6 @@ namespace DokaPass
             }
         }
         #endregion
-
-        private void TxtComments_TextChanged(object sender, EventArgs e)
-        {
-            if (txtComments.ForeColor == Color.Black)
-            {
-                lblCharCounterForTxtComment.Text = txtComments.Text.Length + "/250";
-            }
-        }
-
-        private void AfterButtonClick()//graphics page after button click
-        {
-            if (DisplayMode == "view")
-            {
-                lblActualMode.Text = "Prohlížení";
-                pnlUserPassComment.Show();
-                btnSpectate.BackColor = Color.FromArgb(72, 143, 172);
-                btnEdit.BackColor = Color.SkyBlue;
-                btnADD.BackColor = Color.SkyBlue;
-                btnDelete.BackColor = Color.DarkSalmon;
-                btnCopyPass.Show();
-                btnGen.Hide();
-                btnEvent.Hide();
-                txtWebPageName.ReadOnly = true;
-                txtUsername.ReadOnly = true;
-                txtPass.ReadOnly = true;
-                txtComments.ReadOnly = true;
-
-            }
-            else if (DisplayMode == "create")
-            {
-                lblActualMode.Text = "Nový";
-                pnlUserPassComment.Show();
-                btnADD.BackColor = Color.FromArgb(72, 143, 172);
-                btnEdit.BackColor = Color.SkyBlue;
-                btnSpectate.BackColor = Color.SkyBlue;
-                btnDelete.BackColor = Color.DarkSalmon;
-                btnCopyPass.Hide();
-                btnGen.Show();
-                btnEvent.Text = "Přidat";
-                btnEvent.Show();
-                txtWebPageName.ReadOnly = false;
-                txtUsername.ReadOnly = false;
-                txtPass.ReadOnly = false;
-                txtComments.ReadOnly = false;
-            }
-            else if (DisplayMode == "edit")
-            {
-                lblActualMode.Text = "Upravit";
-                pnlUserPassComment.Show();
-                btnEdit.BackColor = Color.FromArgb(72, 143, 172);
-                btnSpectate.BackColor = Color.SkyBlue;
-                btnADD.BackColor = Color.SkyBlue;
-                btnDelete.BackColor = Color.DarkSalmon;
-                btnCopyPass.Hide();
-                btnGen.Show();
-                btnEvent.Text = "Upravit";
-                btnEvent.Show();
-                txtWebPageName.ReadOnly = false;
-                txtUsername.ReadOnly = false;
-                txtPass.ReadOnly = false;
-                txtComments.ReadOnly = false;
-
-            }
-            TxtName_SetText();
-            TxtUsername_SetText();
-            TxtPass_SetText();
-            TxtComments_SetText();
-            DataGridView_Refresh();
-        }
         private void PullForm_Load(object sender, EventArgs e)
         {
             lblHelloMoment.Text = "Ahoj, " + username + "!";
@@ -475,69 +539,10 @@ namespace DokaPass
         }
         #endregion
 
-        #region LogOut/Close Form
-        private void BtnLogOut_Click(object sender, EventArgs e)
-        {
-            if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
-            this.Hide();
-        }
-        
+
         private void DtGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             textbox_fill();
         }
-
-        private void BtnCopyUsername_Click(object sender, EventArgs e)
-        {
-            if (txtUsername.Text == "Jméno" || txtUsername.Text == "" || txtUsername.Text == null || txtUsername.Text == " " || txtUsername.ForeColor == Color.Gray)
-            {
-                MessageBox.Show("Nelze, nejsou data");
-            }
-            else
-            {
-                try
-                {
-                    Clipboard.SetText(txtUsername.Text);
-                    MessageBox.Show(txtUsername.Text + " je uložen do clipboardu.");
-                }
-                catch { }
-            }
-        }
-
-        private void BtnCopyPass_Click(object sender, EventArgs e)
-        {
-            if (txtPass.Text == "Heslo" || txtPass.Text == "" || txtPass.Text == null || txtPass.Text == " " || txtPass.ForeColor == Color.Gray)
-            {
-                MessageBox.Show("Nelze, nejsou data");
-            }
-            else
-            {
-                try
-                {
-                    Clipboard.SetText(txtPass.Text);
-                    MessageBox.Show(txtPass.Text + " je uložen do clipboardu.");
-                }
-                catch { }
-            }
-        }
-
-        private void BtnGen_Click(object sender, EventArgs e)
-        {
-            using (PassGenerateForm gnrForm = new PassGenerateForm())
-            {
-                if (gnrForm.ShowDialog() == DialogResult.OK)
-                {
-                    txtPass.Text = gnrForm.TheValue;
-                    txtPass.ForeColor = Color.Black;
-                }
-            }
-        }
-
-        private void PullForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Application.OpenForms[0].Close();
-            Application.Exit();
-        }
-        #endregion
     }
 }
