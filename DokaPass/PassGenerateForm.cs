@@ -66,8 +66,8 @@ namespace DokaPass
             if (chkMalaPismena.Checked == false && chkVelkaPismena.Checked == false && chkSymboly.Checked == false && chkCisla.Checked == false) MessageBox.Show("Chyba, zvol si něco");
             else
             {
-                generation gen = new generation();
-                heslo = gen.generate(chkMalaPismena.Checked, chkVelkaPismena.Checked, chkCisla.Checked, chkSymboly.Checked, delka);
+                generate pass = new generate();
+                heslo = pass.gen(chkMalaPismena.Checked, chkVelkaPismena.Checked, chkCisla.Checked, chkSymboly.Checked, delka);
                 DialogResult = DialogResult.OK;
             }
         }

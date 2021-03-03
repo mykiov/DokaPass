@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace DokaPass
 {
-    class generation
+    class generate
     {
         bool loweraseB, uppercaseB, numbersB, charsB;
         int lenghtI, iSwitch, sizeSwitch; //iSwitch - for switch between bools for right generation / sizeSwitch (lowercaseB == true -> switch = +1)
         string key;
-        public generation()
+        public generate()
         {
             
         }
 
         private static Random rnd = new Random();
 
-        public string generate(bool lowercaseB, bool uppercaseB, bool numbersB, bool charsB, int lenghtI)
+        public string gen(bool lowercaseB, bool uppercaseB, bool numbersB, bool charsB, int lenghtI)
         {
             this.loweraseB = lowercaseB;
             this.uppercaseB = uppercaseB;
@@ -51,7 +51,7 @@ namespace DokaPass
             }
             #endregion
 
-            #region generation
+            #region generate
             if (lowercaseB == true || uppercaseB == true || numbersB == true || charsB == true)
             {
                 int number;

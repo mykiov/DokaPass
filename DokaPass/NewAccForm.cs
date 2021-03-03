@@ -23,15 +23,15 @@ namespace DokaPass
         }
 
         string key;
-        generation gen;
+        generate k;
         int delka;
 
         private void BtnCreate_Click(object sender, EventArgs e)
         {
             if(lblInfoMinimumChars.ForeColor == System.Drawing.Color.Green && lblnfoPIN.ForeColor == System.Drawing.Color.Green && lblInfoVerifyPIN.ForeColor == System.Drawing.Color.Green)
             {
-                gen = new generation();
-                key = gen.generate(true,true,true,true,25);//generate key
+                k = new generate();
+                key = k.gen(true,true,true,true,25);//generate key
                 NewAcc(txtUsername.Text,txtPIN.Text,key);
             }
         }
@@ -73,8 +73,8 @@ namespace DokaPass
                     }
                     else
                     {
-                        gen = new generation();
-                        key = gen.generate(true, true, true, true, 25);
+                        k = new generate();
+                        key = k.gen(true, true, true, true, 25);
 
                         StreamWriter strmAccWrite2 = new StreamWriter(accsPath + "\\" + name + ".csv");
                         strmAccWrite2.WriteLine(name);
