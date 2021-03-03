@@ -49,7 +49,7 @@ namespace DokaPass
 
             //top
             pnlTop.Height = (Screen.PrimaryScreen.Bounds.Height / 100) * 10;
-            lblHeader.Location = new Point(this.Width/2-7*25,pnlTop.Height/2-25/2);//   /2(center)   -4(words)    25(= 20pt to px)
+            lblHeader.Location = new Point(this.Width/2-6*25,pnlTop.Height/2-25/2);//   /2(center)   -4(words)    25(= 20pt to px)
 
             //body
             btnLogIn.Size = new Size(250,50);

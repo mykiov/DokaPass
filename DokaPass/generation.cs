@@ -1739,7 +1739,7 @@ namespace DokaPass
                                 number = Convert.ToInt32(rnd.Next(1, 7));
                                 switch (number)
                                 {
-                                    //Andemist-chan - uwu pat pat
+                                    //A n d e    m i s t
                                     case 1:
                                         key = key + '!';
                                         break;
