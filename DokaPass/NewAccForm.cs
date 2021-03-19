@@ -53,17 +53,21 @@ namespace DokaPass
                     Directory.CreateDirectory(binPath);//vytvorit
                 }
 
-                if (!File.Exists(accsPath + "\\" + name + ".csv"))//zda existuje soubor 
+                if (!File.Exists(accsPath + "\\" + name + "."))//zda existuje soubor 
                 {
-                    StreamWriter strmAccWrite = new StreamWriter(accsPath + "\\" + name + ".csv");
-                    strmAccWrite.WriteLine(name);
-                    strmAccWrite.WriteLine(pin);
-                    strmAccWrite.WriteLine(key);
+                    ////////////////////////////////////////////////////15.03
+                    string res="";
+
+                    res = Crypter.Encrypt(name, pin, key);
+
+                    StreamWriter strmAccWrite = new StreamWriter(accsPath + "\\" + name + ".txt");
+                    strmAccWrite.Write(res);
                     strmAccWrite.Close();
 
-                    if (!File.Exists(binPath + "\\" + key + ".csv"))//zepta se jestli ma unikatni klic
+                    if (!File.Exists(binPath + "\\" + key + ".txt"))//zepta se jestli ma unikatni klic
                     {
-                        StreamWriter strmBinWrite = new StreamWriter(binPath + "\\" + key + ".csv");
+
+                        StreamWriter strmBinWrite = new StreamWriter(binPath + "\\" + key + ".txt");
                         strmBinWrite.Write("");
                         strmBinWrite.Close();
 
@@ -76,13 +80,13 @@ namespace DokaPass
                         k = new generate();
                         key = k.gen(true, true, true, true, 25);
 
-                        StreamWriter strmAccWrite2 = new StreamWriter(accsPath + "\\" + name + ".csv");
+                        StreamWriter strmAccWrite2 = new StreamWriter(accsPath + "\\" + name + ".txt");
                         strmAccWrite2.WriteLine(name);
                         strmAccWrite2.WriteLine(pin);
                         strmAccWrite2.WriteLine(key);
                         strmAccWrite2.Close();
 
-                        StreamWriter strmBinWrite2 = new StreamWriter(binPath + "\\" + key + ".csv");
+                        StreamWriter strmBinWrite2 = new StreamWriter(binPath + "\\" + key + ".txt");
                         strmBinWrite2.Write("");
                         strmBinWrite2.Close();
 

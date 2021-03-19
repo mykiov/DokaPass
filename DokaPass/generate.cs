@@ -11,10 +11,6 @@ namespace DokaPass
         bool loweraseB, uppercaseB, numbersB, charsB;
         int lenghtI, iSwitch, sizeSwitch; //iSwitch - for switch between bools for right generation / sizeSwitch (lowercaseB == true -> switch = +1)
         string key;
-        public generate()
-        {
-            
-        }
 
         private static Random rnd = new Random();
 
