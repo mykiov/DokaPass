@@ -37,6 +37,7 @@ namespace DokaPass
         }
         private void NewAcc(string name, string pin, string key)//create new acc
         {
+            string res, textToEncrypt;
             DialogResult dialogResult = MessageBox.Show("Jméno: " + name + Environment.NewLine + "PIN: " + pin + Environment.NewLine + "Správně?", "Ověření", MessageBoxButtons.YesNo);
 
             if(dialogResult == DialogResult.Yes)
@@ -44,7 +45,7 @@ namespace DokaPass
                 string accsPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\accs";
                 string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
 
-                if (!Directory.Exists(accsPath))//jestli existuje slozka acc
+                if (!Directory.Exists(accsPath+"\\" + name))//jestli existuje slozka s uzivatelem acc
                 {
                     Directory.CreateDirectory(accsPath);//vytvorit
                 }
@@ -53,21 +54,22 @@ namespace DokaPass
                     Directory.CreateDirectory(binPath);//vytvorit
                 }
 
-                if (!File.Exists(accsPath + "\\" + name + "."))//zda existuje soubor 
+                if (!File.Exists(accsPath + "\\" + name + "\\" + name + ".dll"))//zda existuje soubor s takovym uctem
                 {
-                    ////////////////////////////////////////////////////15.03
-                    string res="";
+                    ////////////////////////////////////////////////////
+                    res="";
+                    textToEncrypt = name + ";" + pin + ";" + key;
+                    res = Crypter.Encrypt(textToEncrypt);
+                    ////////////////////////////////////////////////////
 
-                    res = Crypter.Encrypt(name, pin, key);
-
-                    StreamWriter strmAccWrite = new StreamWriter(accsPath + "\\" + name + ".txt");
+                    StreamWriter strmAccWrite = new StreamWriter(accsPath + "\\" + name + ".dll");
                     strmAccWrite.Write(res);
                     strmAccWrite.Close();
 
-                    if (!File.Exists(binPath + "\\" + key + ".txt"))//zepta se jestli ma unikatni klic
+                    if (!File.Exists(binPath + "\\" + key + ".dll"))//zepta se jestli je soubor pro ulozeni dat
                     {
 
-                        StreamWriter strmBinWrite = new StreamWriter(binPath + "\\" + key + ".txt");
+                        StreamWriter strmBinWrite = new StreamWriter(binPath + "\\" + key + ".dll");
                         strmBinWrite.Write("");
                         strmBinWrite.Close();
 
@@ -80,13 +82,17 @@ namespace DokaPass
                         k = new generate();
                         key = k.gen(true, true, true, true, 25);
 
-                        StreamWriter strmAccWrite2 = new StreamWriter(accsPath + "\\" + name + ".txt");
-                        strmAccWrite2.WriteLine(name);
-                        strmAccWrite2.WriteLine(pin);
-                        strmAccWrite2.WriteLine(key);
+                        StreamWriter strmAccWrite2 = new StreamWriter(accsPath + "\\" + name + ".dll");
+
+                        ////////////////////////////////////////////////////
+                        res = "";
+                        textToEncrypt = name + ";" + pin + ";" + key;
+                        res = Crypter.Encrypt(textToEncrypt);
+                        ////////////////////////////////////////////////////
+                        strmAccWrite2.Write(res);
                         strmAccWrite2.Close();
 
-                        StreamWriter strmBinWrite2 = new StreamWriter(binPath + "\\" + key + ".txt");
+                        StreamWriter strmBinWrite2 = new StreamWriter(binPath + "\\" + key + ".dll");
                         strmBinWrite2.Write("");
                         strmBinWrite2.Close();
 

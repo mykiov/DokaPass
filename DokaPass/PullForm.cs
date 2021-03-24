@@ -35,15 +35,7 @@ namespace DokaPass
 
         private void DataGridView_Refresh()
         {
-            string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-            StreamReader strmR = new StreamReader(binPath + "\\" + key + ".csv");
             List<string> dtgridViewData = new List<string>();
-            string dataVsouboru;
-
-            while((dataVsouboru = (strmR.ReadLine())) != null)
-            {
-                dtgridViewData.Add(dataVsouboru);
-            }
             dtGridView.Rows.Clear();
             dtGridView.ColumnCount = 4;
             dtGridView.Columns[0].Name = "Název:";
@@ -51,11 +43,34 @@ namespace DokaPass
             dtGridView.Columns[2].Name = "Heslo:";
             dtGridView.Columns[3].Name = "Poznámka:";
 
-            for (int i = 0; i < dtgridViewData.Count; i++)
+
+
+            string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+            StreamReader strmR = new StreamReader(binPath + "\\" + key + ".dll");
+            string dataZeSouboru;
+
+            if ((dataZeSouboru = strmR.ReadToEnd()) != "")
             {
-                dtGridView.Rows.Add(dtgridViewData[i].Split(';')[0], dtgridViewData[i].Split(';')[1], dtgridViewData[i].Split(';')[2], dtgridViewData[i].Split(';')[3]);
+                //////////////////////////////////////////////////////////
+                string dataVsouboru = Crypter.Decrypt(dataZeSouboru);
+                //////////////////////////////////////////////////////////
+
+                using (var reader = new StringReader(dataVsouboru))
+                {
+                    string data;
+                    while ((data = reader.ReadLine()) != null)
+                    {
+                        dtgridViewData.Add(data);
+                    }
+                }
+                //////////////////////////////////////////////////////////
+
+                for (int i = 0; i < dtgridViewData.Count; i++)
+                {
+                    dtGridView.Rows.Add(dtgridViewData[i].Split(';')[0], dtgridViewData[i].Split(';')[1], dtgridViewData[i].Split(';')[2], dtgridViewData[i].Split(';')[3]);
+                }
+                dtGridView.Refresh();
             }
-            dtGridView.Refresh();
             strmR.Close();
             textbox_fill();
         }
@@ -83,11 +98,20 @@ namespace DokaPass
 
 
                 string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".csv");
+                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".dll");
+                ///////////////////////////////////////////////////////////
+                string data = ""; 
+                string sifrovanaData = "";
+
                 for (int i = 0; i < dtGridView.RowCount; i++)
                 {
-                    strmW.WriteLine(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value);
+                    data +=(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value+Environment.NewLine);
                 }
+
+                sifrovanaData = Crypter.Encrypt(data);//zasifruje
+                strmW.Write(sifrovanaData);//napise do souboru
+                //////////////////////////////////////////////////////////////////
+                
                 strmW.Close();
                 DisplayMode = "view";
                 AfterButtonClick();
@@ -107,16 +131,23 @@ namespace DokaPass
 
 
                 string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".csv");
-                for(int i = 0; i<dtGridView.RowCount;i++)
+                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".dll");
+
+                ///////////////////////////////////////////////////////////
+                string data = "";
+                string sifrovanaData = "";
+
+                for (int i = 0; i < dtGridView.RowCount; i++)
                 {
-                    strmW.WriteLine(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value);
+                    data += (dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value + Environment.NewLine);
                 }
+
+                sifrovanaData = Crypter.Encrypt(data);//zasifruje
+                strmW.Write(sifrovanaData);//napise do souboru
+                //////////////////////////////////////////////////////////////////
+
                 strmW.Close();
-                //TxtName_SetText();
-                //TxtUsername_SetText();
-                //TxtPass_SetText();
-                //TxtComments_SetText();
+
                 DisplayMode = "view";
                 AfterButtonClick();
             }

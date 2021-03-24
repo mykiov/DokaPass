@@ -24,17 +24,22 @@ namespace DokaPass
 
         private void BtnLogIn_Click(object sender, EventArgs e)
         {
+            //cesta do slozek
             string accsPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\accs";
             string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
 
-            if(File.Exists(accsPath+"\\"+txtUsername.Text+".csv"))
+            string decryptedContent = null;
+
+            if (File.Exists(accsPath+"\\"+txtUsername.Text+ ".dll"))
             {
-                StreamReader strmReadAcc = new StreamReader(accsPath+"\\"+txtUsername.Text+".csv");
+                StreamReader strmReadAcc = new StreamReader(accsPath+"\\"+txtUsername.Text+ ".dll");
+                decryptedContent = Crypter.Decrypt(strmReadAcc.ReadToEnd());//rozsifruje
+
                 string[] accFile = new string[3];
-                accFile[0] = strmReadAcc.ReadLine().ToString();
-                accFile[1] = strmReadAcc.ReadLine().ToString();
-                accFile[2] = strmReadAcc.ReadLine().ToString();
-                strmReadAcc.Close();
+                accFile[0] = decryptedContent.Split(';')[0];
+                accFile[1] = decryptedContent.Split(';')[1];
+                accFile[2] = decryptedContent.Split(';')[2];
+                strmReadAcc.Close(); 
 
                 string name = accFile[0];
                 string pin = accFile[1];
@@ -42,7 +47,7 @@ namespace DokaPass
 
                 if(pin == txtPIN.Text)
                 {
-                    if(File.Exists(binPath + "\\" + key + ".csv"))
+                    if(File.Exists(binPath + "\\" + key + ".dll"))
                     {
                         PullForm pullForm = new DokaPass.PullForm(key, txtUsername.Text, this.Width, this.Height, this.Location.X, this.Location.Y);
                         pullForm.Show();
