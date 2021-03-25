@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using System.Security.Cryptography;
 
 namespace DokaPass
 {
@@ -22,6 +23,9 @@ namespace DokaPass
             this.Location = new Point(x,y);
         }
 
+        string cryptoAccKey = null;
+        string cryptoBinKey = null;
+
         private void BtnLogIn_Click(object sender, EventArgs e)
         {
             //cesta do slozek
@@ -30,10 +34,30 @@ namespace DokaPass
 
             string decryptedContent = null;
 
+
+            #region inicializace klice pro accs
+            try
+            {
+                RSACryptoServiceProvider RSAacc = new RSACryptoServiceProvider();
+
+                StreamReader OpenKey = new StreamReader(accsPath + "\\key.xml");
+                cryptoAccKey = OpenKey.ReadToEnd();
+                OpenKey.Close();
+                RSAacc.FromXmlString(cryptoAccKey);
+            }
+            catch//pokud precte a bude v key.xml chyba
+            {
+                MessageBox.Show("Chyba v souboru: " + accsPath + "\\key.xml");
+
+                Application.OpenForms[0].Show();
+                this.Hide();
+            }
+            #endregion
+
             if (File.Exists(accsPath+"\\"+txtUsername.Text+ ".dll"))
             {
                 StreamReader strmReadAcc = new StreamReader(accsPath+"\\"+txtUsername.Text+ ".dll");
-                decryptedContent = Crypter.Decrypt(strmReadAcc.ReadToEnd());//rozsifruje
+                decryptedContent = Crypter.Decrypt(strmReadAcc.ReadToEnd(), cryptoAccKey);//rozsifruje
 
                 string[] accFile = new string[3];
                 accFile[0] = decryptedContent.Split(';')[0];
@@ -45,20 +69,65 @@ namespace DokaPass
                 string pin = accFile[1];
                 string key = accFile[2];
 
-                if(pin == txtPIN.Text)
+                #region inicializace klice pro bin
+                try
                 {
-                    if(File.Exists(binPath + "\\" + key + ".dll"))
+                    RSACryptoServiceProvider RSAbin = new RSACryptoServiceProvider();
+
+                    StreamReader OpenKey = new StreamReader(binPath + "\\" + key + "\\" + "key.xml");
+                    cryptoBinKey = OpenKey.ReadToEnd();
+                    OpenKey.Close();
+                    RSAbin.FromXmlString(cryptoAccKey);
+                }
+                catch//pokud precte a bude v key.xml chyba
+                {
+                    MessageBox.Show("Chyba v souboru: " + binPath + "\\" + key + "\\" + "key.xml");
+
+                    Application.OpenForms[0].Show();
+                    this.Hide();
+                }
+                #endregion
+
+                if (pin == txtPIN.Text)
+                {
+                    DirectoryInfo dd = new DirectoryInfo(binPath + "\\" + key);//vezme data z direktorie
+                    DirectoryInfo[] Folders = dd.GetDirectories(); //Getting directories
+
+                    if (Folders.Count() >= 1)
                     {
-                        PullForm pullForm = new DokaPass.PullForm(key, txtUsername.Text, this.Width, this.Height, this.Location.X, this.Location.Y);
-                        pullForm.Show();
-                        txtPIN.Text = "";
-                        txtUsername.Text = "";
-                        if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Hide();
-                        this.Hide();
+                        bool jestliMaAlesponJedenDLL = false;
+                        for (int j = 0; j < Folders.Count(); j++)
+                        {
+                            DirectoryInfo df = new DirectoryInfo(binPath + "\\" + key+ "\\" + Folders[j]);//vezme data z direktorie
+                            FileInfo[] Files = df.GetFiles("*.dll"); //Getting .dll files
+
+                            if (Files.Count() >= 1)
+                            {
+                                jestliMaAlesponJedenDLL = true;
+                            }
+                        }
+
+                        if (jestliMaAlesponJedenDLL == true)
+                        {
+                            PullForm pullForm = new DokaPass.PullForm(key, cryptoAccKey, cryptoBinKey, txtUsername.Text, this.Width, this.Height, this.Location.X, this.Location.Y);
+                            pullForm.Show();
+                            txtPIN.Text = "";
+                            txtUsername.Text = "";
+                            if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Hide();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data s heslama nejsou");
+                            txtPIN.Text = "";
+                            txtUsername.Text = "";
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Data s heslama jsou utrácené");
+                        MessageBox.Show("Data s heslama nejsou");
+                        txtPIN.Text = "";
+                        txtUsername.Text = "";
                     }
                 }
                 else

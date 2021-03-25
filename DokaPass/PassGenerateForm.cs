@@ -48,15 +48,6 @@ namespace DokaPass
                 case 7:
                     delka = 32;
                     break;
-                case 8:
-                    delka = 64;
-                    break;
-                case 9:
-                    delka = 96;
-                    break;
-                case 10:
-                    delka = 128;
-                    break;
             }
             lblDelkaHesla.Text = delka.ToString();
         }

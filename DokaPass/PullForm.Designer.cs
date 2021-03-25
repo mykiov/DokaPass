@@ -243,6 +243,7 @@
             // txtWebPageName
             // 
             this.txtWebPageName.Location = new System.Drawing.Point(14, 43);
+            this.txtWebPageName.MaxLength = 20;
             this.txtWebPageName.Name = "txtWebPageName";
             this.txtWebPageName.Size = new System.Drawing.Size(221, 22);
             this.txtWebPageName.TabIndex = 9;
@@ -254,9 +255,9 @@
             this.lblCharCounterForTxtComment.AutoSize = true;
             this.lblCharCounterForTxtComment.Location = new System.Drawing.Point(241, 287);
             this.lblCharCounterForTxtComment.Name = "lblCharCounterForTxtComment";
-            this.lblCharCounterForTxtComment.Size = new System.Drawing.Size(44, 17);
+            this.lblCharCounterForTxtComment.Size = new System.Drawing.Size(36, 17);
             this.lblCharCounterForTxtComment.TabIndex = 8;
-            this.lblCharCounterForTxtComment.Text = "0/250";
+            this.lblCharCounterForTxtComment.Text = "0/30";
             // 
             // btnEvent
             // 
@@ -321,7 +322,7 @@
             // txtComments
             // 
             this.txtComments.Location = new System.Drawing.Point(14, 147);
-            this.txtComments.MaxLength = 250;
+            this.txtComments.MaxLength = 30;
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
             this.txtComments.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -343,6 +344,7 @@
             // txtUsername
             // 
             this.txtUsername.Location = new System.Drawing.Point(14, 71);
+            this.txtUsername.MaxLength = 20;
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(221, 22);
             this.txtUsername.TabIndex = 0;

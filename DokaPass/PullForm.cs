@@ -15,7 +15,7 @@ namespace DokaPass
 {
     public partial class PullForm : Form
     {
-        public PullForm(string key, string username, int width, int height, int x, int y)
+        public PullForm(string key, string cryptoAccKey, string cryptoBinKey, string username, int width, int height, int x, int y)
         {
             InitializeComponent();
             this.key = key;
@@ -23,12 +23,15 @@ namespace DokaPass
             this.Width = width;
             this.Height = height;
             this.Location = new Point(x, y);
+            this.cryptoAccKey = cryptoAccKey;
+            this.cryptoBinKey = cryptoBinKey;
         }
 
         #region deklarace
         string key, username;
         string DisplayMode;// is for change mode between view, create, edit  delete
         int actualCell;
+        string cryptoAccKey, cryptoBinKey;
         #endregion
 
         #region DataGridView
@@ -44,75 +47,143 @@ namespace DokaPass
             dtGridView.Columns[3].Name = "Poznámka:";
 
 
-
             string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-            StreamReader strmR = new StreamReader(binPath + "\\" + key + ".dll");
-            string dataZeSouboru;
 
-            if ((dataZeSouboru = strmR.ReadToEnd()) != "")
+            DirectoryInfo dd = new DirectoryInfo(binPath+"\\" + key); //vezme data z direktorie
+            DirectoryInfo[] Folders = dd.GetDirectories(); //Getting all folders
+            dtGridView.Rows.Clear();
+            for (int i = 0; i<Folders.Count(); i++)
             {
-                //////////////////////////////////////////////////////////
-                string dataVsouboru = Crypter.Decrypt(dataZeSouboru);
-                //////////////////////////////////////////////////////////
-
-                using (var reader = new StringReader(dataVsouboru))
+                DirectoryInfo df = new DirectoryInfo(binPath + "\\" + key + "\\" + Folders[i]); //vezme data z direktorie
+                FileInfo[] Files = df.GetFiles("*.dll"); //Getting all .dll folders
+                if(Files.Count() >= 1)
                 {
-                    string data;
-                    while ((data = reader.ReadLine()) != null)
+                    string[] contentSouboru = new string[4];
+
+                    for (int j = 0; j < Files.Count(); j++)
                     {
-                        dtgridViewData.Add(data);
-                    }
-                }
-                //////////////////////////////////////////////////////////
+                        switch (Files[j].ToString())
+                        {
+                            case "1.dll":
+                                StreamReader strmR1 = new StreamReader(binPath + "\\" + key + "\\" + Folders[i] + "\\" + Files[j].ToString());
+                                string data1 = null;
+                                data1 = strmR1.ReadToEnd();
+                                if (data1 != "" || data1 != " ")
+                                {
+                                    contentSouboru[0] = Crypter.Decrypt(data1, cryptoBinKey);
+                                }
+                                else contentSouboru[0] = "";
+                                strmR1.Close();
+                                break;
 
-                for (int i = 0; i < dtgridViewData.Count; i++)
-                {
-                    dtGridView.Rows.Add(dtgridViewData[i].Split(';')[0], dtgridViewData[i].Split(';')[1], dtgridViewData[i].Split(';')[2], dtgridViewData[i].Split(';')[3]);
+                            case "2.dll":
+                                StreamReader strmR2 = new StreamReader(binPath + "\\" + key + "\\" + Folders[i] + "\\" + Files[j].ToString());
+                                string data2 = null;
+                                data2 = strmR2.ReadToEnd();
+                                if (data2 != "" || data2 != " ")
+                                {
+                                    contentSouboru[1] = Crypter.Decrypt(data2, cryptoBinKey);
+                                }
+                                else contentSouboru[1] = "";
+                                strmR2.Close();
+                                break;
+
+                            case "3.dll":
+                                StreamReader strmR3 = new StreamReader(binPath + "\\" + key + "\\" + Folders[i] + "\\" + Files[j].ToString());
+                                string data3 = null;
+                                data3 = strmR3.ReadToEnd();
+                                if (data3 != "" || data3 != " ")
+                                {
+                                    contentSouboru[2] = Crypter.Decrypt(data3, cryptoBinKey);
+                                }
+                                else contentSouboru[2] = "";
+                                strmR3.Close();
+                                break;
+
+                            case "4.dll":
+                                StreamReader strmR4 = new StreamReader(binPath + "\\" + key + "\\" + Folders[i] + "\\" + Files[j].ToString());
+                                string data4 = null;
+                                data4 = strmR4.ReadToEnd();
+                                if (data4 != "" || data4 != " ")
+                                {
+                                    contentSouboru[3] = Crypter.Decrypt(data4, cryptoBinKey);
+                                }
+                                else contentSouboru[3] = "";
+                                strmR4.Close();
+                                break;
+                        }
+                    }
+                    try
+                    {
+                        if ((contentSouboru[0] != "" && contentSouboru[0] != " ") && (contentSouboru[1] != "" && contentSouboru[1] != " ") && (contentSouboru[2] != "" && contentSouboru[2] != " ") && (contentSouboru[3] != "" && contentSouboru[3] != " "))
+                        {
+                            dtGridView.Rows.Add(contentSouboru[0], contentSouboru[1], contentSouboru[2], contentSouboru[3]);
+                        }
+                    }
+                    catch { }
                 }
-                dtGridView.Refresh();
             }
-            strmR.Close();
+            dtGridView.Refresh();
             textbox_fill();
         }
 
         private void DataGridView_Edit()
         {
+            string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+
             if (dtGridView.SelectedRows == null) MessageBox.Show("Nelze nic upravit");
             else
             {
 
                 foreach (DataGridViewRow row in dtGridView.SelectedRows)
                 {
-                    if(txtWebPageName.Text == "")txtWebPageName.Text = " ";
-                    row.Cells[0].Value = txtWebPageName.Text;
+                    DirectoryInfo di = new DirectoryInfo(binPath + "\\" + key); //vezme data z direktorie
+                    DirectoryInfo[] folders = di.GetDirectories();
+
+                    if (txtWebPageName.Text == "")txtWebPageName.Text = " ";
+                    for(int i = 0; i <= dtGridView.RowCount; i++)
+                    {
+                        if (row.Index == i)
+                        {
+                            StreamWriter strmUprava = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (1).ToString() + ".dll");
+                            strmUprava.Write(Crypter.Encrypt(txtWebPageName.Text, cryptoBinKey));
+                            strmUprava.Close();
+                        }
+                    }
 
                     if (txtUsername.Text == "") txtUsername.Text = " ";
-                    row.Cells[1].Value = txtUsername.Text;
+                    for (int i = 0; i <= dtGridView.RowCount; i++)
+                    {
+                        if (row.Index == i)
+                        {
+                            StreamWriter strmUprava = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (2).ToString() + ".dll");
+                            strmUprava.Write(Crypter.Encrypt(txtUsername.Text, cryptoBinKey));
+                            strmUprava.Close();
+                        }
+                    }
 
                     if (txtPass.Text == "") txtPass.Text = " ";
-                    row.Cells[2].Value = txtPass.Text;
+                    for (int i = 0; i <= dtGridView.RowCount; i++)
+                    {
+                        if (row.Index == i)
+                        {
+                            StreamWriter strmUprava = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (3).ToString() + ".dll");
+                            strmUprava.Write(Crypter.Encrypt(txtPass.Text, cryptoBinKey));
+                            strmUprava.Close();
+                        }
+                    }
 
                     if (txtComments.Text == "") txtComments.Text = " ";
-                    row.Cells[3].Value = txtComments.Text;
+                    for (int i = 0; i <= dtGridView.RowCount; i++)
+                    {
+                        if (row.Index == i)
+                        {
+                            StreamWriter strmUprava = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (4).ToString() + ".dll");
+                            strmUprava.Write(Crypter.Encrypt(txtComments.Text, cryptoBinKey));
+                            strmUprava.Close();
+                        }
+                    }
                 }
-
-
-                string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".dll");
-                ///////////////////////////////////////////////////////////
-                string data = ""; 
-                string sifrovanaData = "";
-
-                for (int i = 0; i < dtGridView.RowCount; i++)
-                {
-                    data +=(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value+Environment.NewLine);
-                }
-
-                sifrovanaData = Crypter.Encrypt(data);//zasifruje
-                strmW.Write(sifrovanaData);//napise do souboru
-                //////////////////////////////////////////////////////////////////
-                
-                strmW.Close();
                 DisplayMode = "view";
                 AfterButtonClick();
             }
@@ -130,24 +201,42 @@ namespace DokaPass
                 dtGridView.Rows.Add(txtWebPageName.Text, txtUsername.Text, txtPass.Text, txtComments.Text);
 
 
+                //////////////////////////////////////////////////////////// ulozeni z datagrid do souboru
                 string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-                StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".dll");
-
-                ///////////////////////////////////////////////////////////
-                string data = "";
-                string sifrovanaData = "";
 
                 for (int i = 0; i < dtGridView.RowCount; i++)
                 {
-                    data += (dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value + Environment.NewLine);
+                    for (int j = 0; j < 4; j++)
+                    {
+                        switch (j)
+                        {
+                            case 0:
+                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                StreamWriter strmZapis1 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                strmZapis1.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[0].Value.ToString(), cryptoBinKey));
+                                strmZapis1.Close();
+                                break;
+                            case 1:
+                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                StreamWriter strmZapis2 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                strmZapis2.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[1].Value.ToString(), cryptoBinKey));
+                                strmZapis2.Close();
+                                break;
+                            case 2:
+                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                StreamWriter strmZapis3 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                strmZapis3.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[2].Value.ToString(), cryptoBinKey));
+                                strmZapis3.Close();
+                                break;
+                            case 3:
+                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                StreamWriter strmZapis4 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                strmZapis4.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[3].Value.ToString(), cryptoBinKey));
+                                strmZapis4.Close();
+                                break;
+                        }
+                    }
                 }
-
-                sifrovanaData = Crypter.Encrypt(data);//zasifruje
-                strmW.Write(sifrovanaData);//napise do souboru
-                //////////////////////////////////////////////////////////////////
-
-                strmW.Close();
-
                 DisplayMode = "view";
                 AfterButtonClick();
             }
@@ -261,15 +350,60 @@ namespace DokaPass
                 DialogResult msgbx = MessageBox.Show("Chcete odstránít řádek?", "", MessageBoxButtons.YesNo);
                 if (msgbx == DialogResult.Yes)
                 {
-                    dtGridView.Rows.RemoveAt(row.Index);
-                    dtGridView.Refresh();
+                    
                     string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-                    StreamWriter strmW = new StreamWriter(binPath + "\\" + key + ".csv");
-                    for (int i = 0; i < dtGridView.RowCount; i++)
+                    DirectoryInfo di = new DirectoryInfo(binPath + "\\" + key); //vezme data z direktorie
+                    DirectoryInfo[] folders = di.GetDirectories();
+                    for (int i = 0; i<folders.Count();i++)
                     {
-                        strmW.WriteLine(dtGridView.Rows[i].Cells[0].Value + ";" + dtGridView.Rows[i].Cells[1].Value + ";" + dtGridView.Rows[i].Cells[2].Value + ";" + dtGridView.Rows[i].Cells[3].Value);
+                        if(i == row.Index)
+                        {
+                            DirectoryInfo dd = new DirectoryInfo(binPath + "\\" + key + "\\" + folders[i]);
+                            foreach (FileInfo file in dd.GetFiles())
+                            {
+                                file.Delete();
+                            }
+                            folders[i].Delete(true);
+
+                            if(folders.Count() <= 1)
+                            {
+                                for (int j = 0; j < 4; j++)
+                                {
+                                    switch (j)
+                                    {
+                                        case 0:
+                                            if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                            StreamWriter strmZapis1 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                            strmZapis1.Write(Crypter.Encrypt((" "), cryptoBinKey));
+                                            strmZapis1.Close();
+                                            break;
+                                        case 1:
+                                            if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                            StreamWriter strmZapis2 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                            strmZapis2.Write(Crypter.Encrypt((" "), cryptoBinKey));
+                                            strmZapis2.Close();
+                                            break;
+                                        case 2:
+                                            if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                            StreamWriter strmZapis3 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                            strmZapis3.Write(Crypter.Encrypt((" "), cryptoBinKey));
+                                            strmZapis3.Close();
+                                            break;
+                                        case 3:
+                                            if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                            StreamWriter strmZapis4 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                            strmZapis4.Write(Crypter.Encrypt((" "), cryptoBinKey));
+                                            strmZapis4.Close();
+                                            break;
+                                    }
+                                }
+                            }
+                        }
                     }
-                    strmW.Close();
+                    
+                    dtGridView.Refresh();
+                    DataGridView_Refresh();
+
                     TxtName_SetText();
                     TxtPass_SetText();
                     TxtUsername_SetText();
@@ -390,7 +524,7 @@ namespace DokaPass
         {
             if (txtComments.ForeColor == Color.Black)
             {
-                lblCharCounterForTxtComment.Text = txtComments.Text.Length + "/250";
+                lblCharCounterForTxtComment.Text = txtComments.Text.Length + "/30";
             }
         }
 
@@ -522,7 +656,7 @@ namespace DokaPass
                 if (dtGridView.Rows.Count == 0)
                 {
                     this.txtComments.Text = "Poznámka";
-                    lblCharCounterForTxtComment.Text = "0/250";
+                    lblCharCounterForTxtComment.Text = "0/30";
                     txtComments.ForeColor = Color.Gray;
                 }
                 else textbox_fill();
@@ -530,7 +664,7 @@ namespace DokaPass
             else
             {
                 this.txtComments.Text = "Poznámka";
-                lblCharCounterForTxtComment.Text = "0/250";
+                lblCharCounterForTxtComment.Text = "0/30";
                 txtComments.ForeColor = Color.Gray;
             }
         }
@@ -543,10 +677,21 @@ namespace DokaPass
             {
                 foreach (DataGridViewRow row in dtGridView.SelectedRows)
                 {
-                    txtWebPageName.Text = row.Cells[0].Value.ToString();
-                    txtUsername.Text = row.Cells[1].Value.ToString();
-                    txtPass.Text = row.Cells[2].Value.ToString();
-                    txtComments.Text = row.Cells[3].Value.ToString();
+                    try { txtWebPageName.Text = row.Cells[0].Value.ToString(); }
+                    catch { txtWebPageName.Text = ""; }
+
+                    try { txtUsername.Text = row.Cells[1].Value.ToString(); }
+                    catch { txtUsername.Text = "";}
+
+                    try { txtPass.Text = row.Cells[2].Value.ToString(); }
+                    catch { txtPass.Text = ""; }
+
+                    try {
+                        txtComments.Text = row.Cells[3].Value.ToString();
+                        lblCharCounterForTxtComment.Text = row.Cells[3].Value.ToString().Count() + "/30";
+                    }
+                    catch { txtComments.Text = ""; }
+
                     txtWebPageName.ForeColor = Color.Black;
                     txtUsername.ForeColor = Color.Black;
                     txtPass.ForeColor = Color.Black;
@@ -561,6 +706,7 @@ namespace DokaPass
             DisplayMode = "view";
             actualCell = 0;
             Textboxes_Load();
+            TxtComments_SetText();
             AfterButtonClick();
             PageDesign();
         }

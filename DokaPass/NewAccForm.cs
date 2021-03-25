@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace DokaPass
 {
@@ -38,6 +39,8 @@ namespace DokaPass
         private void NewAcc(string name, string pin, string key)//create new acc
         {
             string res, textToEncrypt;
+            string cryptoAccKey = null;
+            string cryptoBinKey = null;
             DialogResult dialogResult = MessageBox.Show("Jméno: " + name + Environment.NewLine + "PIN: " + pin + Environment.NewLine + "Správně?", "Ověření", MessageBoxButtons.YesNo);
 
             if(dialogResult == DialogResult.Yes)
@@ -45,66 +48,118 @@ namespace DokaPass
                 string accsPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\accs";
                 string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
 
-                if (!Directory.Exists(accsPath+"\\" + name))//jestli existuje slozka s uzivatelem acc
-                {
-                    Directory.CreateDirectory(accsPath);//vytvorit
-                }
                 if (!Directory.Exists(binPath))// jestli existuje slozka bin
                 {
                     Directory.CreateDirectory(binPath);//vytvorit
                 }
-
-                if (!File.Exists(accsPath + "\\" + name + "\\" + name + ".dll"))//zda existuje soubor s takovym uctem
+                if (!Directory.Exists(accsPath))// jestli existuje slozka s uzivateli
                 {
-                    ////////////////////////////////////////////////////
-                    res="";
+                    Directory.CreateDirectory(accsPath);//vytvorit
+                }
+
+                if (!File.Exists(accsPath + "\\key.xml"))//vytvori klic pro spravu uctu
+                {
+                    RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+
+                    StreamWriter SaveKey = new StreamWriter(accsPath + "\\key.xml");
+                    SaveKey.Write(cryptoAccKey = (RSA.ToXmlString(true)));
+                    SaveKey.Close();
+                }
+                else//nebo precte pokud ma
+                {
+                    try
+                    {
+                        RSACryptoServiceProvider RSAacc = new RSACryptoServiceProvider();
+
+                        StreamReader OpenKey = new StreamReader(accsPath + "\\key.xml");
+                        cryptoAccKey = OpenKey.ReadToEnd();
+                        OpenKey.Close();
+                        RSAacc.FromXmlString(cryptoAccKey);
+                    }
+                    catch//pokud precte a bude v key.xml chyba
+                    {
+                        MessageBox.Show("Chyba v souboru: " + accsPath + "\\key.xml");
+
+                        Application.OpenForms[0].Show();
+                        this.Hide();
+                    }
+                }
+
+                if (!File.Exists(accsPath + "\\" + name + ".dll"))//zda neexistuje soubor s takovym uctem
+                {
+                    res = "";
                     textToEncrypt = name + ";" + pin + ";" + key;
-                    res = Crypter.Encrypt(textToEncrypt);
-                    ////////////////////////////////////////////////////
+                    res = Crypter.Encrypt(textToEncrypt, cryptoAccKey);//zasifruje
 
                     StreamWriter strmAccWrite = new StreamWriter(accsPath + "\\" + name + ".dll");
                     strmAccWrite.Write(res);
                     strmAccWrite.Close();
 
-                    if (!File.Exists(binPath + "\\" + key + ".dll"))//zepta se jestli je soubor pro ulozeni dat
+                    while (true)
                     {
+                        if (!Directory.Exists(binPath + "\\" + key + "\\"))//zepta se jestli je slozka a soubor pro ulozeni dat
+                        {
+                            Directory.CreateDirectory(binPath + "\\" + key + "\\");//vytvori se direktorie
 
-                        StreamWriter strmBinWrite = new StreamWriter(binPath + "\\" + key + ".dll");
-                        strmBinWrite.Write("");
-                        strmBinWrite.Close();
+                            #region ziskani klice cryptoBinKey
+                            if (!File.Exists(binPath + "\\" + key + "\\" + "key.xml"))//vytvori se unikatni klic pro slozku s hesly
+                            {
+                                Directory.CreateDirectory(binPath + "\\" + key);
+                                RSACryptoServiceProvider RSAbin = new RSACryptoServiceProvider();
 
-                        MessageBox.Show("Účet je vytvořen :)");
-                        if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
-                        this.Hide();
-                    }
-                    else
-                    {
-                        k = new generate();
-                        key = k.gen(true, true, true, true, 25);
+                                StreamWriter SaveKey = new StreamWriter(binPath + "\\" + key + "\\" + "key.xml");
+                                SaveKey.Write(cryptoBinKey = (RSAbin.ToXmlString(true)));
+                                SaveKey.Close();
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    RSACryptoServiceProvider RSAbin = new RSACryptoServiceProvider();
 
-                        StreamWriter strmAccWrite2 = new StreamWriter(accsPath + "\\" + name + ".dll");
+                                    StreamReader OpenKey = new StreamReader(binPath + "\\" + key + "\\" + "key.xml");
+                                    cryptoBinKey = OpenKey.ReadToEnd();
+                                    OpenKey.Close();
+                                    RSAbin.FromXmlString(cryptoAccKey);
+                                }
+                                catch//pokud precte a bude v key.xml chyba
+                                {
+                                    MessageBox.Show("Chyba v souboru: " + binPath + "\\" + key + "\\" + "key.xml");
 
-                        ////////////////////////////////////////////////////
-                        res = "";
-                        textToEncrypt = name + ";" + pin + ";" + key;
-                        res = Crypter.Encrypt(textToEncrypt);
-                        ////////////////////////////////////////////////////
-                        strmAccWrite2.Write(res);
-                        strmAccWrite2.Close();
+                                    Application.OpenForms[0].Show();
+                                    this.Hide();
+                                }
+                            }
+                            #endregion
 
-                        StreamWriter strmBinWrite2 = new StreamWriter(binPath + "\\" + key + ".dll");
-                        strmBinWrite2.Write("");
-                        strmBinWrite2.Close();
+                            Directory.CreateDirectory(binPath + "\\" + key + "\\" + "1");//vytvori se direktorie
 
-                        MessageBox.Show("Účet je vytvořen :)");
-                        txtPIN.Text = "";
-                        txtVerifyPIN.Text = "";
-                        txtUsername.Text = "";
-                        lblInfoMinimumChars.ForeColor = Color.Red;
-                        lblInfoVerifyPIN.ForeColor = Color.Red;
-                        lblnfoPIN.ForeColor = Color.Red;
-                        this.Hide();
+                            string[] data = new string[] { " ", " ", " ", " "};
+                            for (int i = 0; i<4; i++)
+                            {
+                                StreamWriter strmBinWrite = new StreamWriter(binPath + "\\" + key + "\\1\\" + (i+1).ToString() + ".dll");
+                                strmBinWrite.Write(Crypter.Encrypt(data[i], cryptoBinKey));
+                                strmBinWrite.Close();
+                            }
 
+                            StreamWriter strmAccWrite2 = new StreamWriter(accsPath + "\\" + name + ".dll");
+                            res = "";
+                            textToEncrypt = name + ";" + pin + ";" + key;
+                            res = Crypter.Encrypt(textToEncrypt, cryptoAccKey);
+                            strmAccWrite2.Write(res);
+                            strmAccWrite2.Close();
+
+
+                            MessageBox.Show("Účet je vytvořen :)");
+                            if (Application.OpenForms[0].Name == "Form1") Application.OpenForms[0].Show();
+                            this.Hide();
+                            break;
+                        }
+                        else
+                        {
+                            k = new generate();
+                            key = k.gen(true, true, true, true, 25);
+                        }
                     }
                 }
                 else MessageBox.Show("Účet jíž existuje, vytvořte jiný");

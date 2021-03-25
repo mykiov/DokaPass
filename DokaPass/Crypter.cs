@@ -38,7 +38,7 @@ namespace DokaPass
 
 
 
-        public static string Encrypt(string text)
+        public static string Encrypt(string text, string key)
         {
             UnicodeEncoding ByteConverter = new UnicodeEncoding();
 
@@ -46,7 +46,7 @@ namespace DokaPass
             {
                 byte[] encryptedData;
                 RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
-                RSA.FromXmlString(Key());
+                RSA.FromXmlString(key);
                 encryptedData = RSA.Encrypt(ByteConverter.GetBytes(text), false);
                 return Convert.ToBase64String(encryptedData);
             }
@@ -57,7 +57,7 @@ namespace DokaPass
             }
         }
 
-        public static string Decrypt(string text)
+        public static string Decrypt(string text, string key)
         {
             UnicodeEncoding ByteConverter = new UnicodeEncoding();
 
@@ -65,7 +65,7 @@ namespace DokaPass
             {
                 byte[] decryptedData;
                 RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
-                RSA.FromXmlString(Key());
+                RSA.FromXmlString(key);
                 decryptedData = RSA.Decrypt(Convert.FromBase64String(text), false);
                 return ByteConverter.GetString(decryptedData);
             }
