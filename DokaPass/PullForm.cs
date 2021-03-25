@@ -191,54 +191,54 @@ namespace DokaPass
 
         private void DataGridView_Upload()
         {
-            if (txtWebPageName.ForeColor == Color.Gray && txtUsername.ForeColor == Color.Gray && txtPass.ForeColor == Color.Gray && txtComments.ForeColor == Color.Gray) MessageBox.Show("Zadej data!");
+            if (txtWebPageName.ForeColor == Color.Gray && txtUsername.ForeColor == Color.Gray && txtPass.ForeColor == Color.Gray && txtComments.ForeColor == Color.Gray) MessageBox.Show("Zadej všechny údaje.");
             else
             {
-                if (txtWebPageName.ForeColor == Color.Gray) txtWebPageName.Text = "";
-                if (txtUsername.ForeColor == Color.Gray) txtUsername.Text = "";
-                if (txtPass.ForeColor == Color.Gray) txtPass.Text = "";
-                if (txtComments.ForeColor == Color.Gray) txtComments.Text = "";
-                dtGridView.Rows.Add(txtWebPageName.Text, txtUsername.Text, txtPass.Text, txtComments.Text);
-
-
-                //////////////////////////////////////////////////////////// ulozeni z datagrid do souboru
-                string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
-
-                for (int i = 0; i < dtGridView.RowCount; i++)
+                if (txtWebPageName.ForeColor != Color.Gray || txtUsername.ForeColor != Color.Gray || txtPass.ForeColor != Color.Gray || txtComments.ForeColor != Color.Gray)
                 {
-                    for (int j = 0; j < 4; j++)
+                    dtGridView.Rows.Add(txtWebPageName.Text, txtUsername.Text, txtPass.Text, txtComments.Text);
+
+
+                    //////////////////////////////////////////////////////////// ulozeni z datagrid do souboru
+                    string binPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\bin";
+
+                    for (int i = 0; i < dtGridView.RowCount; i++)
                     {
-                        switch (j)
+                        for (int j = 0; j < 4; j++)
                         {
-                            case 0:
-                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
-                                StreamWriter strmZapis1 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
-                                strmZapis1.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[0].Value.ToString(), cryptoBinKey));
-                                strmZapis1.Close();
-                                break;
-                            case 1:
-                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
-                                StreamWriter strmZapis2 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
-                                strmZapis2.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[1].Value.ToString(), cryptoBinKey));
-                                strmZapis2.Close();
-                                break;
-                            case 2:
-                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
-                                StreamWriter strmZapis3 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
-                                strmZapis3.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[2].Value.ToString(), cryptoBinKey));
-                                strmZapis3.Close();
-                                break;
-                            case 3:
-                                if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
-                                StreamWriter strmZapis4 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
-                                strmZapis4.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[3].Value.ToString(), cryptoBinKey));
-                                strmZapis4.Close();
-                                break;
+                            switch (j)
+                            {
+                                case 0:
+                                    if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                    StreamWriter strmZapis1 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                    strmZapis1.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[0].Value.ToString(), cryptoBinKey));
+                                    strmZapis1.Close();
+                                    break;
+                                case 1:
+                                    if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                    StreamWriter strmZapis2 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                    strmZapis2.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[1].Value.ToString(), cryptoBinKey));
+                                    strmZapis2.Close();
+                                    break;
+                                case 2:
+                                    if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                    StreamWriter strmZapis3 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                    strmZapis3.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[2].Value.ToString(), cryptoBinKey));
+                                    strmZapis3.Close();
+                                    break;
+                                case 3:
+                                    if (!Directory.Exists(binPath + "\\" + key + "\\" + (i + 1).ToString())) Directory.CreateDirectory(binPath + "\\" + key + "\\" + (i + 1).ToString()); //jestli neexistuje slozka
+                                    StreamWriter strmZapis4 = new StreamWriter(binPath + "\\" + key + "\\" + (i + 1).ToString() + "\\" + (j + 1).ToString() + ".dll");
+                                    strmZapis4.Write(Crypter.Encrypt(dtGridView.Rows[i].Cells[3].Value.ToString(), cryptoBinKey));
+                                    strmZapis4.Close();
+                                    break;
+                            }
                         }
                     }
+                    DisplayMode = "view";
+                    AfterButtonClick();
                 }
-                DisplayMode = "view";
-                AfterButtonClick();
+                else MessageBox.Show("Napíš všechny údaje");
             }
         }
         #endregion
