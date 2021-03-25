@@ -82,9 +82,9 @@
             this.lblHeader.ForeColor = System.Drawing.Color.White;
             this.lblHeader.Location = new System.Drawing.Point(397, 32);
             this.lblHeader.Name = "lblHeader";
-            this.lblHeader.Size = new System.Drawing.Size(333, 38);
+            this.lblHeader.Size = new System.Drawing.Size(322, 38);
             this.lblHeader.TabIndex = 0;
-            this.lblHeader.Text = "Doka - manažer hesel";
+            this.lblHeader.Text = "Doka - správce hesel";
             // 
             // Form1
             // 
